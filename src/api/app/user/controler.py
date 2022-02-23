@@ -7,14 +7,20 @@ def get_user_by_id(user_id):
 
 def register_user(body):
     try:
+        if not body:
+            return False
+
         if body['password'] is None:
             return False
 
         if body['email'] is None:
             return False
+        
+        if body['name'] is None:
+            return False
 
         hash_pass = encryp_pass(body['password'])
-        new_user = User(email=body['email'], password=hash_pass)
+        new_user = User(email=body['email'], password=hash_pass, name=body['name'], last_name=body['last_name'])
         db.session.add(new_user)
         db.session.commit()
         return new_user.serialize()
@@ -33,15 +39,15 @@ def login_user(body):
         if body['email'] is None:
             return False
 
-        user = db.session.query(User).filter(User.email == body['email']).first()
-        if user is None:
+        current_user = db.session.query(User).filter(User.email == body['email']).first()
+        if current_user is None:
             return 'user not exist'
 
-        validate_pass = compare_pass(body['password'], user.password)
+        validate_pass = compare_pass(body['password'], current_user.password)
         if validate_pass == False:
             return 'pass not iqual'
 
-        new_token = create_access_token(identity={'id': user.id})
+        new_token = create_access_token(identity={'id': current_user.id})
         return { 'token': new_token }
         
     except Exception as err:
