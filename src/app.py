@@ -12,6 +12,12 @@ from api.app.user.router import users
 from api.app.post.router import posts
 from api.admin import setup_admin
 from flask_jwt_extended import JWTManager
+
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
+
 #from models import Person
 
 ENV = os.getenv("FLASK_ENV")
