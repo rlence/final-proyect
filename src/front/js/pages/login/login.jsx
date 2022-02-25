@@ -1,13 +1,80 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import "../login/login.css";
+import { useHistory } from "react-router-dom";
 
-export const Login =() => {
+export const Login = () => {
+  const [email, setEmail] = useState("");
+  const [passw, setPassw] = useState("");
+  const [message, setMessage] = useState("");
+  const history = useHistory();
+  const [showSpinner, setShowSpinner] = useState(false);
 
-
-    return (
-        <div>
-            <p>in login page</p>
-        </div>
-
-
+  function loginUser() {
+    setShowSpinner({ loading: true });
+    fetch(
+      "https://3001-lienzoenblanco-finalproy-n11lkq44c26.ws-eu34xl.gitpod.io/api/user/login",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          email: email,
+          password: passw,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     )
-}
+      .then((resp) => resp.json())
+      .then((data) => {
+        if (data == "user not exist") {
+          setMessage("User does not exist");
+          setShowSpinner(false);
+        } else {
+          localStorage.setItem("token", JSON.stringify(data));
+          console.log(JSON.parse(localStorage.getItem("token")));          
+          history.push("/");
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
+  return (
+    <div className="container-fluid">
+      <p>{message}</p>
+
+      <div className="mb-3">
+        <label htmlFor="FormControlInput1" className="form-label">
+          Email
+        </label>
+        <input
+          type="email"
+          className="form-control"
+          id="exampleFormControlInput1"
+          placeholder="name@example.com"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="FormControlTextarea1" className="form-label">
+          Password
+        </label>
+        <input
+          type="password"
+          className="form-control"
+          id="exampleFormControlTextarea1"
+          rows="3"
+          onChange={(e) => setPassw(e.target.value)}
+        />
+      </div>
+      {showSpinner ? (
+        <div className="spinner-border">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      ) : (
+        <button type="button" className="btn btn-primary" onClick={loginUser}>
+          Login
+        </button>
+      )}
+    </div>
+  );
+};
