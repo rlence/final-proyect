@@ -7,11 +7,7 @@ from flask_migrate import Migrate
 
 
 def load_seed():
-    print('estoy aqui')
-
     for table, rows in data.items():
-        print(table)
-        print(rows)
         ModelClass = getattr(models, table)
         for row in rows:
             inserted = insert(ModelClass).values(**row)
