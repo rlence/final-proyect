@@ -12,7 +12,7 @@ from api.app.user.router import users
 from api.app.post.router import posts
 from api.admin import setup_admin
 from flask_jwt_extended import JWTManager
-#from models import Person
+
 
 ENV = os.getenv("FLASK_ENV")
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
@@ -65,7 +65,10 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0 # avoid cache memory
     return response
 
+
+
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
     app.run(host='0.0.0.0', port=PORT, debug=True)
+    
