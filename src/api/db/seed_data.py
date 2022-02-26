@@ -13,7 +13,14 @@ data = {
         {
             "id":1,
             "email": 'lencericardo@gmail.com',
-            "password": "123456"
+            "password": "123456",
+            "username": "rlence"
+        },
+         {
+            "id":2,
+            "email": 'lencericardo@gmail.com',
+            "password": "123456",
+            "username": "rlence"
         }
     ]
 }
