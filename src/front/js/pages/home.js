@@ -1,26 +1,48 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
+import { save_img } from "../service/user.js";
 import "../../styles/home.css";
+import { format } from "prettier";
 
 export const Home = () => {
-	const { store, actions } = useContext(Context);
+  const { store, actions } = useContext(Context);
 
-	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
-			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
-			</div>
-			<p>
-				This boilerplate comes with lots of documentation:{" "}
-				<a href="https://github.com/4GeeksAcademy/react-flask-hello/tree/95e0540bd1422249c3004f149825285118594325/docs">
-					Read documentation
-				</a>
-			</p>
-		</div>
-	);
+  const [file, setFile] = useState("");
+  const [fileUrl, setFileUrl] = useState("");
+
+  const handelChangeFile = (e) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (reader.readyState === 2) {
+          console.log("result", reader.result);
+        }
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
+
+  const handelClick = async () => {
+    try {
+      const form = new FormData();
+      form.append("img", file);
+      form.append("username", "rlence");
+      const res = await save_img(form);
+      const data = await res.json();
+      console.log(data);
+      setFileUrl(data[0]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  console.log(file);
+  return (
+    <div className="text-center mt-5">
+      hola vamos hacer una subida de archivos
+      <input type="file" onChange={handelChangeFile}></input>
+      <img src={fileUrl}></img>
+      <button onClick={handelClick}>save imga</button>
+    </div>
+  );
 };

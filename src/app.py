@@ -13,6 +13,8 @@ from api.app.post.router import posts
 from api.admin import setup_admin
 from flask_jwt_extended import JWTManager
 
+import cloudinary
+
 
 ENV = os.getenv("FLASK_ENV")
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
@@ -30,6 +32,10 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_KEY")
 
+app.config['CLOUD_NAME'] = os.environ.get("CLOUD_NAME")
+app.config['CLOUD_API_KEY'] = os.environ.get("CLOUD_API_KEY")
+app.config['CLOUD_API_SECRECT'] = os.environ.get("CLOUD_API_SECRECT")
+
 MIGRATE = Migrate(app, db, compare_type = True)
 db.init_app(app)
 jwt = JWTManager(app)
@@ -43,6 +49,13 @@ setup_admin(app)
 
 app.register_blueprint(users, url_prefix="/api/user")
 app.register_blueprint(posts, url_prefix="/api/post")
+
+cloudinary.config( 
+  cloud_name = app.config['CLOUD_NAME'] , 
+  api_key = app.config['CLOUD_API_KEY'], 
+  api_secret = app.config['CLOUD_API_SECRECT'],
+  secure = True
+)
 
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
