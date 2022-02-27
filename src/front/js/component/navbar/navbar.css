@@ -1,5 +1,6 @@
 .navbar{
     width: 100%; 
+    background-color: white;
 }
 
 .container-logo{ 
@@ -7,17 +8,27 @@
 }
 
 .container-buttons{
-    margin-right:2%;
+    display:flex;
+    position: absolute;
+    bottom: 10%;
+    right: 2%;
 }
 
 .logo{
     width:20%;
     left:2%;
+    margin:auto;
 }
 
-.btn {
-    margin: 5px;
-    
-   
+.btn-register{
+    margin: 5;
+    background-color:#43aa72 !important;
+    border-color: white !important;
+    color:white !important;
+}
 
+.btn-login {
+    background-color:#43aa72 !important;
+    border-color: white !important;
+    color:white !important;  
 }

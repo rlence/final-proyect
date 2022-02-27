@@ -1,29 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "../login/login.css";
 import { useHistory } from "react-router-dom";
+import { loginUser } from "../../service/user";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [passw, setPassw] = useState("");
   const [message, setMessage] = useState("");
-  const history = useHistory();
   const [showSpinner, setShowSpinner] = useState(false);
+  const history = useHistory();
 
-  function loginUser() {
-    setShowSpinner({ loading: true });
-    fetch(
-      "https://3001-lienzoenblanco-finalproy-n11lkq44c26.ws-eu34xl.gitpod.io/api/user/login",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          email: email,
-          password: passw,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
+  const onLoginUserClick = () => {
+    loginUser(email, passw)
       .then((resp) => resp.json())
       .then((data) => {
         if (data == "user not exist") {
@@ -31,12 +19,12 @@ export const Login = () => {
           setShowSpinner(false);
         } else {
           localStorage.setItem("token", JSON.stringify(data));
-          console.log(JSON.parse(localStorage.getItem("token")));          
+          console.log(JSON.parse(localStorage.getItem("token")));
           history.push("/");
         }
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   return (
     <div className="container-fluid">
@@ -71,7 +59,11 @@ export const Login = () => {
           <span className="visually-hidden">Loading...</span>
         </div>
       ) : (
-        <button type="button" className="btn btn-primary" onClick={loginUser}>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={onLoginUserClick}
+        >
           Login
         </button>
       )}
