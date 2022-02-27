@@ -1,0 +1,16 @@
+.container-fluid {
+  margin-top: 5%;
+  width: 30%;
+  padding: 20%;
+  background-color: #d2e7df;
+  padding: 10px;
+  text-align: center;
+}
+
+label {
+  margin-top: 20px;
+}
+
+.last-label {
+  margin-bottom: 20px;
+}

@@ -1,6 +1,13 @@
+from sqlalchemy.exc import IntegrityError
+from flask_jwt_extended import create_access_token
+
+from api.utils import APIException
 from api.shared.encrypte_pass import encryp_pass, compare_pass
 from api.models.index import db, User
-from flask_jwt_extended import create_access_token
+
+from logging import getLogger
+
+logger = getLogger(__name__)
 
 def get_user_by_id(user_id):
     return User.query.get(user_id)
@@ -9,25 +16,39 @@ def register_user(body):
     try:
         if not body:
             return False
-
-        if body['password'] is None:
+        
+        user_info = {
+            "password": body.get('password'),
+            "email": body.get('email'),
+            "name": body.get('name'),
+            "last_name": body.get('lastName'),
+        }
+        if user_info['password'] is None:
             return False
 
-        if body['email'] is None:
+        if user_info['email'] is None:
             return False
         
-        if body['name'] is None:
+        if user_info['name'] is None:
             return False
 
-        hash_pass = encryp_pass(body['password'])
-        new_user = User(email=body['email'], password=hash_pass, name=body['name'], last_name=body['last_name'])
+        hash_pass = encryp_pass(user_info['password'])
+        user_info['password'] = hash_pass
+
+        new_user = User(**user_info)
         db.session.add(new_user)
         db.session.commit()
-        return new_user.serialize()
-
+        return login_user({'email': body['email'], 'password':body['password']})
+    except IntegrityError as err:
+        logger.exception('[ERROR REGISTER USER]: USER DUPLICATED ')
+        raise APIException(status_code=401, payload={
+            'error': {
+                'message': 'Email no valido',
+            }
+        })
     except Exception as err:
         db.session.rollback()
-        print('[ERROR REGISTER USER]: ', err)
+        logger.exception('[ERROR REGISTER USER]: Unexepcted')
         return None
 
 
