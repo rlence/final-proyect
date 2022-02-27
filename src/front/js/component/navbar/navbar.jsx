@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 import "../navbar/navbar.css"
 
 export const Navbar = () => {
@@ -22,4 +23,5 @@ export const Navbar = () => {
 			
 		</nav>
 	);
+
 };

@@ -1,11 +1,14 @@
+
 .navbar{
     width: 100%; 
     background-color: white;
+
 }
 
-.container-logo{ 
-    margin-left: 2%;
+.container-logo {
+  margin-left: 2%;
 }
+
 
 .container-buttons{
     display:flex;
@@ -32,3 +35,4 @@
     border-color: white !important;
     color:white !important;  
 }
+
