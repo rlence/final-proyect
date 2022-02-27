@@ -14,3 +14,17 @@ export const loginUser = (email, password) => {
     },
   });
 };
+
+export const registerService = (userInfo) => {
+  return fetch(
+    BaseUrl + "/user/register",
+    {
+      method: "POST",
+      body: JSON.stringify(userInfo),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+};
+
