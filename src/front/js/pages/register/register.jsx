@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import "./register.css";
-import { registerService } from "../../services/register_service";
+import { registerService } from "../../service/user";
 
 export const Register = () => {
   const history = useHistory();
