@@ -1,26 +1,29 @@
-import React, { useContext } from "react";
+import React, { useContext, useState} from "react";
 import { Context } from "../store/appContext";
 
 import "../../styles/home.css";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
+	const {file, setFile} = useState("");
+	const {fileUrl, setFileUrl} = useState("");
 
+	const handelChangeFile =(e) => {
+		if(e.target.files){
+			const reader = new FileReader();
+			reader.onload = (e) => {
+				if (reader.readyState === 2) {
+					setFileUrl(reader.result);
+				}
+			};
+			reader.readAsDataURL(e.target.files[0]);
+		}
+
+	};
 	return (
 		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				
-			</p>
-			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
-			</div>
-			<p>
-				This boilerplate comes with lots of documentation:{" "}
-				<a href="https://github.com/4GeeksAcademy/react-flask-hello/tree/95e0540bd1422249c3004f149825285118594325/docs">
-					Read documentation
-				</a>
-			</p>
+			<input type="file" onChange={handelChangeFile}></input>
+			<img src ={fileUrl}></img>
 		</div>
 	);
 };

@@ -1,7 +1,7 @@
   
 import os
 from flask_admin import Admin
-from api.models.index import User, Post
+from api.models.index import User, Post, Recipe
 from api.models.db import db
 from flask_admin.contrib.sqla import ModelView
 
