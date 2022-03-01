@@ -9,6 +9,7 @@ from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
 from api.models.db import db
 from api.app.user.router import users
+from api.app.ingredient.router import ingredients
 from api.app.post.router import posts
 from api.app.recipe.router import recipes
 from api.admin import setup_admin
@@ -49,6 +50,7 @@ setup_admin(app)
 
 
 app.register_blueprint(users, url_prefix="/api/user")
+app.register_blueprint(ingredients, url_prefix="/api/ingredient")
 app.register_blueprint(posts, url_prefix="/api/post")
 app.register_blueprint(recipes, url_prefix="/api/recipe")
 

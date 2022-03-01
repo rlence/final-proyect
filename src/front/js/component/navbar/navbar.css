@@ -1,38 +1,34 @@
-
-.navbar{
-    width: 100%; 
-    background-color: white;
-
+.navbar {
+  width: 100%;
+  background-color: white;
 }
 
 .container-logo {
   margin-left: 2%;
 }
 
-
-.container-buttons{
-    display:flex;
-    position: absolute;
-    bottom: 10%;
-    right: 2%;
+.container-buttons {
+  display: flex;
+  bottom: 10%;
+  right: 2%;
+  margin-right: 2%;
 }
 
-.logo{
-    width:20%;
-    left:2%;
-    margin:auto;
+.logo {
+  width: 20%;
+  left: 2%;
+  margin: auto;
 }
 
-.btn-register{
-    margin: 5;
-    background-color:#43aa72 !important;
-    border-color: white !important;
-    color:white !important;
+.btn-register {
+  margin: 5;
+  background-color: #43aa72 !important;
+  border-color: white !important;
+  color: white !important;
 }
 
 .btn-login {
-    background-color:#43aa72 !important;
-    border-color: white !important;
-    color:white !important;  
+  background-color: #43aa72 !important;
+  border-color: white !important;
+  color: white !important;
 }
-
