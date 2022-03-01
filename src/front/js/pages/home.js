@@ -28,6 +28,7 @@ export const Home = () => {
       const form = new FormData();
       form.append("img", file);
       form.append("username", "rlence");
+      from.append("email", "kngewghiehg@gmail.com");
       const res = await save_img(form);
       const data = await res.json();
       console.log(data);

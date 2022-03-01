@@ -47,3 +47,24 @@ def login_user(body):
     except Exception as err:
         print('[ERROR LOGIN]: ', err)
         return None
+
+def update_user_info(body, user_id):
+    try:
+        print("body", body)
+        user = User.query.get(user_id)
+        print(user)
+        ## forma 1
+       # user.email = body['email']
+        print("update user")
+        ## forma 2 
+        user_json = user.json_to_update()
+  
+        for key, value in body.items():
+            user_json[key] = value
+    
+        db.session.query(User).filter(User.id == user_id).update(user_json)
+        db.session.commit()
+        return user.serialize()
+    except Exception as err:
+        print(err)
+        return None

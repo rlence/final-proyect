@@ -1,25 +1,23 @@
+from api.shared.encrypte_pass import encryp_pass
+
 data = {
     "Rol":[
         {
-            "id": 1,
             "rol_name": "client"
         },
         {
-            "id": 2,
             "rol_name": "work"
         }
     ],
     "User":[
         {
-            "id":1,
             "email": 'lencericardo@gmail.com',
-            "password": "123456",
+            "password": encryp_pass("123456"),
             "username": "rlence"
         },
          {
-            "id":2,
-            "email": 'lencericardo@gmail.com',
-            "password": "123456",
+            "email": 'lenceriegegscardo@gmail.com',
+            "password":  encryp_pass("123456"),
             "username": "rlence"
         }
     ]

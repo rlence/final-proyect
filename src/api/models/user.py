@@ -14,4 +14,11 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
+            "username": self.username
+        }
+
+    def json_to_update(self):
+        return {
+            "email": self.email,
+            "username": self.username
         }

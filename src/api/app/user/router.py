@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.app.user.controler import register_user, login_user, get_user_by_id
+from api.app.user.controler import register_user, login_user, get_user_by_id, update_user_info
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from cloudinary.uploader import upload
@@ -56,3 +56,11 @@ def upload_file():
     except Exception as error:
         print(error)
         return jsonify('algo fue mal', 500)
+
+
+@users.route("/update", methods=["PUT"])
+def update_user():
+    user_id = 1
+    body = request.get_json()
+    user = update_user_info(body, user_id)
+    return jsonify(user), 200
