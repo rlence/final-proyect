@@ -1,5 +1,6 @@
+from api.shared.encrypte_pass import encryp_pass
+import datetime
 
-from api.shared.encryp_pass import encryp_pass
 
 data = {
     "User":[
@@ -66,19 +67,19 @@ data = {
     "Menu":[
         {
             "title": "Menus ligth",
-            "create_at": self.create,
+            "create_at": datetime.datetime.now(),
             "id_user": 1,
 
         },
         {
             "title": "Menus niños",
-            "create_at": self.create,
+            "create_at":  datetime.datetime.now(),
             "id_user": 2,
 
         },
         {
             "title": "Menu verano",
-            "create_at": self.create,
+            "create_at": datetime.datetime.now(),
             "id_user": 1,
 
         }

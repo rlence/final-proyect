@@ -5,7 +5,7 @@ from cloudinary.uploader import upload
 
 recipes = Blueprint('recipes', __name__)
 
-@recipes.route('/create', methods=['POST'])
+@recipes.route('/create', methods=["POST"])
 def create_recipe():
     body = request.get_json()
 
@@ -32,13 +32,13 @@ def upload_file():
         print(error)
         return jsonify('error al guardar la imagen', 500)
 
-@recipes.route('/get/:id', methods = ['GET'])
+@recipes.route('/get/<id>', methods = ['GET'])
 def get_recipe(id):
     recipe = controller.get_recipe(id)
 
     return jsonify(recipe.serialize())
 
-@recipes.route('/update/:id', methods = ['PUT'])
+@recipes.route('/update/<id>', methods = ['PUT'])
 def update_recipe(id):
     body = request.get_json()
 
