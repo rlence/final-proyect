@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, url_for, Blueprint
-#from api.app.recipe.controller import create_recipe, get_recipe, get_list_recipes, update_recipe
+from api.app.recipe.controller import create_recipe, get_recipe, get_list_recipes, update_recipe
 from api.app.recipe import controller
+from cloudinary.uploader import upload
 
 recipes = Blueprint('recipes', __name__)
 
@@ -16,15 +17,20 @@ def create_recipe():
     else:
         return jsonify(new_recipe), 201
 
-@recipe.route('/img', methods=["POST"])
+@recipes.route('/img', methods=["POST"])
 def upload_file():
     try:
         img = request.form['img']
+        # body = request.form.to_dict()
         print(img)
-        return jsonify('tengo la imagen',200)
+        # print(body)
+        url_img = upload(img)
+        print(url_image)
+            
+        return jsonify(url_img['url'],200)
     except Exception as error:
         print(error)
-        return jsonify('algo fue mal', 500)
+        return jsonify('error al guardar la imagen', 500)
 
 @recipes.route('/get/:id', methods = ['GET'])
 def get_recipe(id):

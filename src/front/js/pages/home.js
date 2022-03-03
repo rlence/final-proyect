@@ -8,18 +8,27 @@ export const Home = () => {
 	const {file, setFile} = useState("");
 	const {fileUrl, setFileUrl} = useState("");
 
-	const handelChangeFile =(e) => {
-		if(e.target.files){
-			const reader = new FileReader();
-			reader.onload = (e) => {
-				if (reader.readyState === 2) {
-					setFileUrl(reader.result);
-				}
-			};
-			reader.readAsDataURL(e.target.files[0]);
-		}
+	//ejemplo para previsualizar una imegen
+// 	const handelChangeFile =(e) => {
+// 		if(e.target.files){
+// 			const reader = new FileReader();
+// 			reader.onload = (e) => {
+// 				if (reader.readyState === 2) {
+// 					setFileUrl(reader.result);
+// 				}
+// 			};
+// 			reader.readAsDataURL(e.target.files[0]);
+// 		}
 
-	};
+// 	};
+
+	// const handelClick = async() =>{
+	// 	try {
+	// 		const form = new FormData();
+	// 		form.append("img", file);
+	// 		form.append("username", )
+	// 	}
+	// };
 	return (
 		<div className="text-center mt-5">
 			<input type="file" onChange={handelChangeFile}></input>

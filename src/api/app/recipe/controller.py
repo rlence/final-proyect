@@ -8,7 +8,7 @@ from logging import getLogger
 logger = getLogger(__name__)
 
 def create_recipe(body):
-  
+
     if not body:
         raise APIException(status_code=400, payload={
             'error': {
@@ -21,7 +21,8 @@ def create_recipe(body):
         "title":body.get('title'),
         "description": body.get('description'),
         "private": body.get('private'),
-        "id_user": body.get('id_user'),            
+        "id_user": body.get('id_user'), 
+        "tag": body.get('tag')           
     }
 
     if recipe_info['title'] is None:
@@ -44,7 +45,7 @@ def create_recipe(body):
     new_recipe = Recipe(**recipe_info)
     db.session.add(new_recipe)
     db.session.commit()
-    return new_recipe
+    return new_recipe.serialize()
 
 
 def get_recipe(recipe_id):
