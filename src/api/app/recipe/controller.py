@@ -51,14 +51,27 @@ def create_recipe(body):
 def get_recipe(recipe_id):
     return Recipe.query.get(recipe_id)
 
-def get_list_recipes():
-    recipes = Recipe.query.get_all()
+def get_recipe_list(page=1, per_page=20, search=""):
+    recipe_page = Recipe.query.filter(Recipe.title.ilike(f'%{search}%')).paginate(page,per_page)
+    print(recipe_page)
+    
+    recipe_list = [] 
+    for recipe in recipe_page.items:
+        recipe_list.append(recipe.serialize()) 
 
-    recipes_list = []
-    for recipe in recipes:
-        recipes_list.append(recipes.serialize())
+    return dict(
+        items=recipe_list, 
+        total=recipe_page.total, 
+        current_page=recipe_page.page
+    )
+# def get_list_recipes():
+#     recipes = Recipe.query.get_all()
 
-    return jsonify(recipes_list)
+#     recipes_list = []
+#     for recipe in recipes:
+#         recipes_list.append(recipes.serialize())
+
+#     return jsonify(recipes_list)
 
 def update_recipe(recipe_id, recipe_params):
     """
@@ -67,10 +80,10 @@ def update_recipe(recipe_id, recipe_params):
     :param recipe_id: id of the recipe to update
     :param recipe_params: a dict with the fields to update in the existing recipe
     """
-    recipe = Recipe.query.filter_by(id=recipe_id)
-    recipe.update(recipe_params)
+    num_rows_updated = Recipe.query.filter_by(id=recipe_id).update(recipe_params)
     db.session.commit()
-    return recipe
+    recipe = Recipe.query.get(recipe_id)
+    return recipe.serialize()
 
 
     
