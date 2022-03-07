@@ -1,5 +1,5 @@
 import os
-from api.db.seed_data import data
+from api.seed_data import data
 from sqlalchemy import insert
 import api.models.index as models
 from flask import Flask
