@@ -66,7 +66,7 @@ cloudinary.config(
   api_secret = app.config["CLOUD_API_SECRET"],
   secure = True
 )
-
+print(app.config["CLOUD_API_KEY"],"apiKey" )
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
