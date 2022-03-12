@@ -1,12 +1,16 @@
 from flask import Flask, request, jsonify, url_for, Blueprint
+
 from api.app.recipe.controller import create_recipe, save_in_my_recipe, get_recipe, get_recipe_list, update_recipe, get_myrecipe_list
+
 from api.app.recipe import controller
 from cloudinary.uploader import upload
 import cloudinary
 from api.utils import APIException
 from flask_jwt_extended import jwt_required
+
 from flask_jwt_extended import get_jwt_identity
 from api.models.index import db, Recipe, User, Ingredient, Recipe_ingredient,MyRecipe
+
 
 
 from logging import getLogger
@@ -15,13 +19,17 @@ logger = getLogger(__name__)
 
 recipes = Blueprint('recipes', __name__)
 
+
 # form data with img, tag and general recipe data
+
 @recipes.route('/create', methods=["POST"])
 @jwt_required()
 def create_recipe():
     try:
         img = request.files['img']
+
         # print(f"cloudinary api key:{cloudinary._config.api_key}")
+
         img_data = upload(img)
        
           
@@ -46,6 +54,7 @@ def create_recipe():
     body = request.form.to_dict()
 
     new_recipe = controller.create_recipe(body, url_img)
+
     recipe_id=new_recipe["id"]
 
     #save the recipe created in my_recipe:
@@ -57,6 +66,7 @@ def create_recipe():
         return jsonify('Bad Request'), 400
     else:
         return jsonify(new_recipe), 201
+
 
 
 #save public recipe in MyRecipe: body with recipe_id, id_user and tag
@@ -128,8 +138,6 @@ def get_recipe_list():
 
     return jsonify(recipe_list), 200
 
-
-
 #get private recipes list from my_recipies
 @recipes.route('/myrecipes', methods=['GET'])
 @jwt_required()
@@ -187,3 +195,4 @@ def delete_in_myrecipes(id):
         print("Error deleting recipe:", error)
         db.session.rollback()
         return None
+

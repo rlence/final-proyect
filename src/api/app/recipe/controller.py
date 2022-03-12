@@ -1,7 +1,9 @@
 from sqlalchemy.exc import IntegrityError,InvalidRequestError
 
 from api.utils import APIException
+
 from api.models.index import db, Recipe, User, Ingredient, Recipe_ingredient,MyRecipe
+
 
 from logging import getLogger
 
@@ -23,7 +25,7 @@ def create_recipe(body, url_img):
         "description": body.get('description'),
         "private": body.get('private'),
         "id_user": body.get('id_user'), 
-            
+
     }
 
     if recipe_info['title'] is None:
@@ -40,7 +42,7 @@ def create_recipe(body, url_img):
             'error': {
                 'message': 'missing description',
             }
-        })    
+
 
     try:
         new_recipe = Recipe(**recipe_info)
@@ -104,7 +106,6 @@ def get_recipe(recipe_id):
 
 
 
-
 def get_recipe_list(page=1, per_page=20, search=""):
     
         recipe_page = Recipe.query.filter(Recipe.title.ilike(f'%{search}%')).paginate(page,per_page)
@@ -119,6 +120,7 @@ def get_recipe_list(page=1, per_page=20, search=""):
             total=recipe_page.total, 
             current_page=recipe_page.page
         )
+
 #get list recipies from my_recipe    
 def get_myrecipe_list(user_id,page=1, per_page=20):
     
@@ -134,6 +136,7 @@ def get_myrecipe_list(user_id,page=1, per_page=20):
             total=recipe_page.total, 
             current_page=recipe_page.page
         )
+
 
 def update_recipe(recipe_id, recipe_params):
     """

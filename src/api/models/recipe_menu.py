@@ -6,6 +6,7 @@ class Recipe_menu(db.Model):
     menu = db.relationship('Menu', backref='menu_in_recipe_menu')
     id_recipe= db.Column(db.Integer, db.ForeignKey('recipe.id'))
     recipe = db.relationship('Recipe', backref='recipe_in_recipe_menu')
+
   
   
 

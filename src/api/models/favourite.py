@@ -1,18 +1,16 @@
 from api.models.db import db
 
-class Comment(db.Model):
+class Favourite(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_user= db.Column(db.Integer, db.ForeignKey('user.id'))
-
-    user = db.relationship('User', backref='user_comment')
+    user = db.relationship('User', backref='favourite')
     id_recipe= db.Column(db.Integer, db.ForeignKey('recipe.id'))
-    recipe = db.relationship('Recipe', backref='recipe_comment')
-
+    recipe = db.relationship('Recipe', backref='favourite')
   
   
 
     def __repr__(self):
-        return '<Comment %r>' % self.id
+        return '<Favourite %r>' % self.id
 
     def serialize(self):
         return {

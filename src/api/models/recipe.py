@@ -11,6 +11,7 @@ class Recipe(db.Model):
     user = db.relationship('User', backref='recipe_user')
     ingredients = db.relationship('Recipe_ingredient')
 
+
     def __repr__(self):
         return '<Recipe %r>' % self.id
 
@@ -23,5 +24,6 @@ class Recipe(db.Model):
             "private": self.private,
             "id_user": self.id_user,
         
+
             
         }

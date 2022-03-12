@@ -8,6 +8,7 @@ class Recipe_ingredient(db.Model):
   
     # ingredient = db.relationship('Ingredient')
     # recipe = db.relationship('Recipe')
+
   
 
     def __repr__(self):
@@ -17,7 +18,7 @@ class Recipe_ingredient(db.Model):
         return {
             "id": self.id,
             "quantity": self.quantity,
-            "ingredient": self.id_ingredient,
+            "id_ingredient": self.id_ingredient,
             "id_recipe": self.id_recipe,
             
             
