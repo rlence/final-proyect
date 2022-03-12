@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, url_for, Blueprint
+from api.models.index import db, Ingredient, Recipe_ingredient
 from api.app.ingredient.controler import create_ingredient, list_ingredient
 
 
@@ -35,3 +36,17 @@ def add_recipe_ingredient():
         return jsonify('Bad Request'), 400
     else:
         return jsonify(new_ingredient), 201
+
+@ingredients.route('/ingredients', methods=['GET'])
+def get_all_ingredients():
+    
+    
+    ingredients = Ingredient.query.all()
+    
+    ingredient_list = []
+    for ingredient in ingredients:
+           ingredient_list.append(ingredient.serialize())
+
+    print(ingredient_list)
+
+    return jsonify(ingredient_list),200

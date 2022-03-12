@@ -42,11 +42,18 @@ def create_recipe(body, url_img):
             }
         })    
 
+    try:
+        new_recipe = Recipe(**recipe_info)
+        db.session.add(new_recipe)
+        db.session.commit()
+        return new_recipe.serialize()
 
-    new_recipe = Recipe(**recipe_info)
-    db.session.add(new_recipe)
-    db.session.commit()
-    return new_recipe.serialize()
+    except Exception as error:
+        print("Error creating recipe:", error)
+        db.session.rollback()
+        return None
+
+    
 
 def save_in_my_recipe(body,recipe_id):
     my_recipe_info={
@@ -70,10 +77,16 @@ def save_in_my_recipe(body,recipe_id):
                 'message': 'missing id_user',
             }
         })    
-    my_new_recipe =MyRecipe(**my_recipe_info)
-    db.session.add(my_new_recipe)
-    db.session.commit()
    
+    try:
+        my_new_recipe =MyRecipe(**my_recipe_info)
+        db.session.add(my_new_recipe)
+        db.session.commit()
+
+    except Exception as error:
+        print("Error saving recipe:", error)
+        db.session.rollback()
+        return None
 
 
 def get_recipe(recipe_id):
@@ -133,9 +146,10 @@ def update_recipe(recipe_id, recipe_params):
        
         num_rows_updated = Recipe.query.filter_by(id=recipe_id).update(recipe_params)
         db.session.commit()
-        return recipe.serialize()
+        return  Recipe.query.get(recipe_id)
 
     except InvalidRequestError as error:
+        db.session.rollback()
         logger.error(error)
         invalid_key = str(error).split(' ')[-1]
         raise APIException(status_code=400, payload={

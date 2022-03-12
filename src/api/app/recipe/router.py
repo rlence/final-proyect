@@ -5,6 +5,7 @@ from cloudinary.uploader import upload
 import cloudinary
 from api.utils import APIException
 from flask_jwt_extended import jwt_required
+from flask_jwt_extended import get_jwt_identity
 from api.models.index import db, Recipe, User, Ingredient, Recipe_ingredient,MyRecipe
 
 
@@ -113,8 +114,9 @@ def get_recipe(id):
 @jwt_required()
 def update_recipe(id):
     body = request.get_json()
+    recipe = (controller.update_recipe(id, body))
 
-    return jsonify(controller.update_recipe(id, body))
+    return jsonify(recipe.serialize())
 
 #get public recipes_list
 @recipes.route('/', methods=['GET'])
@@ -175,8 +177,13 @@ def update_myrecipe(id):
 @recipes.route('/myrecipes/<id>', methods = ['DELETE'])
 @jwt_required()
 def delete_in_myrecipes(id):
-    recipe=  MyRecipe.query.get(id)
-    db.session.delete(recipe)
-    db.session.commit()
+    try:
+        recipe=  MyRecipe.query.get(id)
+        db.session.delete(recipe)
+        db.session.commit()
+        return jsonify('Recipe delete correctly')
 
-    return jsonify('Recipe delete correctly')
+    except Exception as error:
+        print("Error deleting recipe:", error)
+        db.session.rollback()
+        return None
