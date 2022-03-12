@@ -23,3 +23,15 @@ def get_ingredient_list():
     ingredient_list = list_ingredient(page=page, search=search)
 
     return jsonify(ingredient_list), 200
+
+@ingredients.route('/ingredient_recipe', methods=['POST'])
+def add_recipe_ingredient():
+    body = request.get_json()
+
+    new_ingredient = create_ingredient_recipe(body)
+    if new_ingredient is None:
+        return jsonify('Internal server error'), 500
+    elif new_ingredient == False:
+        return jsonify('Bad Request'), 400
+    else:
+        return jsonify(new_ingredient), 201

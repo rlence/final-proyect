@@ -3,9 +3,9 @@ from api.models.db import db
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_user= db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', backref='comment')
+    user = db.relationship('User', backref='user_comment')
     id_recipe= db.Column(db.Integer, db.ForeignKey('recipe.id'))
-    recipe = db.relationship('Recipe', backref='comment')
+    recipe = db.relationship('Recipe', backref='recipe_comment')
   
   
 

@@ -6,10 +6,10 @@ class Recipe(db.Model):
     title = db.Column(db.String(80), unique=False, nullable=False)
     description = db.Column(db.String(1000), unique=True, nullable=False)
     private = db.Column(db.Boolean, default=False)
-    tag = db.Column(db.Integer)
     id_user= db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', backref='recipe')
   
+    user = db.relationship('User', backref='recipe_user')
+    ingredients = db.relationship('Recipe_ingredient')
 
     def __repr__(self):
         return '<Recipe %r>' % self.id
@@ -21,7 +21,7 @@ class Recipe(db.Model):
             "title": self.title,
             "description": self.description,
             "private": self.private,
-            "tag": self.tag,
             "id_user": self.id_user,
+        
             
         }

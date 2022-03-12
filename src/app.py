@@ -10,8 +10,9 @@ from api.utils import APIException, generate_sitemap
 from api.models.db import db
 from api.app.user.router import users
 from api.app.ingredient.router import ingredients
-
 from api.app.recipe.router import recipes
+
+
 from api.admin import setup_admin
 from flask_jwt_extended import JWTManager
 
@@ -60,13 +61,14 @@ app.register_blueprint(users, url_prefix="/api/user")
 app.register_blueprint(ingredients, url_prefix="/api/ingredient")
 app.register_blueprint(recipes, url_prefix="/api/recipe")
 
+
 cloudinary.config( 
   cloud_name = app.config["CLOUD_NAME"], 
   api_key = app.config["CLOUD_API_KEY"], 
   api_secret = app.config["CLOUD_API_SECRET"],
   secure = True
 )
-print(app.config["CLOUD_API_KEY"],"apiKey" )
+# print(app.config["CLOUD_API_KEY"],"apiKey" )
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
