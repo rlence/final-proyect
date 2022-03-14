@@ -1,7 +1,9 @@
   
 import os
 from flask_admin import Admin
-from api.models.index import User, Recipe, Comment, Favourite, Ingredient, Menu, Recipe_ingredient, Recipe_menu
+
+from api.models.index import User, Recipe, Comment, MyRecipe, Ingredient, Menu, Recipe_ingredient, Recipe_menu
+
 from api.models.db import db
 from flask_admin.contrib.sqla import ModelView
 
@@ -15,7 +17,11 @@ def setup_admin(app):
     admin.add_view(ModelView(User, db.session))
     admin.add_view(ModelView(Recipe, db.session))
     admin.add_view(ModelView(Comment, db.session))
-    admin.add_view(ModelView(Favourite, db.session))
+
+    admin.add_view(ModelView(MyRecipe, db.session))
+
+  
+
     admin.add_view(ModelView(Ingredient, db.session))
     admin.add_view(ModelView(Menu, db.session))
     admin.add_view(ModelView(Recipe_ingredient, db.session))

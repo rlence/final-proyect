@@ -1,7 +1,9 @@
 from sqlalchemy.exc import IntegrityError,InvalidRequestError
 
 from api.utils import APIException
-from api.models.index import db, Recipe, User
+
+from api.models.index import db, Recipe, User, Ingredient, Recipe_ingredient,MyRecipe
+
 
 from logging import getLogger
 
@@ -23,7 +25,7 @@ def create_recipe(body, url_img):
         "description": body.get('description'),
         "private": body.get('private'),
         "id_user": body.get('id_user'), 
-        "tag": body.get('tag')           
+
     }
 
     if recipe_info['title'] is None:
@@ -40,13 +42,53 @@ def create_recipe(body, url_img):
             'error': {
                 'message': 'missing description',
             }
-        })
+
+
+    try:
+        new_recipe = Recipe(**recipe_info)
+        db.session.add(new_recipe)
+        db.session.commit()
+        return new_recipe.serialize()
+
+    except Exception as error:
+        print("Error creating recipe:", error)
+        db.session.rollback()
+        return None
+
     
 
-    new_recipe = Recipe(**recipe_info)
-    db.session.add(new_recipe)
-    db.session.commit()
-    return new_recipe.serialize()
+def save_in_my_recipe(body,recipe_id):
+    my_recipe_info={
+        "id_recipe":recipe_id,
+        "id_user": body.get('id_user'), 
+        "tag" :body.get('tag')
+
+    }
+
+    if my_recipe_info['tag'] is None:
+        logger.error("missing tag")
+        raise APIException(status_code=400, payload={
+            'error': {
+                'message': 'missing tag',
+            }
+        })    
+    if my_recipe_info['id_user'] is None:
+        logger.error("missing id_user")
+        raise APIException(status_code=400, payload={
+            'error': {
+                'message': 'missing id_user',
+            }
+        })    
+   
+    try:
+        my_new_recipe =MyRecipe(**my_recipe_info)
+        db.session.add(my_new_recipe)
+        db.session.commit()
+
+    except Exception as error:
+        print("Error saving recipe:", error)
+        db.session.rollback()
+        return None
 
 
 def get_recipe(recipe_id):
@@ -63,6 +105,7 @@ def get_recipe(recipe_id):
         })
 
 
+
 def get_recipe_list(page=1, per_page=20, search=""):
     
         recipe_page = Recipe.query.filter(Recipe.title.ilike(f'%{search}%')).paginate(page,per_page)
@@ -77,7 +120,23 @@ def get_recipe_list(page=1, per_page=20, search=""):
             total=recipe_page.total, 
             current_page=recipe_page.page
         )
+
+#get list recipies from my_recipe    
+def get_myrecipe_list(user_id,page=1, per_page=20):
     
+        recipe_page = MyRecipe.query.filter_by(id_user=user_id).paginate(page,per_page)
+        print(recipe_page)
+        
+        recipe_list = [] 
+        for recipe in recipe_page.items:
+            recipe_list.append(recipe.serialize()) 
+
+        return dict(
+            items=recipe_list, 
+            total=recipe_page.total, 
+            current_page=recipe_page.page
+        )
+
 
 def update_recipe(recipe_id, recipe_params):
     """
@@ -87,13 +146,13 @@ def update_recipe(recipe_id, recipe_params):
     :param recipe_params: a dict with the fields to update in the existing recipe
     """
     try:
-
+       
         num_rows_updated = Recipe.query.filter_by(id=recipe_id).update(recipe_params)
         db.session.commit()
-        recipe = Recipe.query.get(recipe_id)
-        return recipe.serialize()
+        return  Recipe.query.get(recipe_id)
 
     except InvalidRequestError as error:
+        db.session.rollback()
         logger.error(error)
         invalid_key = str(error).split(' ')[-1]
         raise APIException(status_code=400, payload={
