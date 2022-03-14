@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify, url_for, Blueprint
 
-from api.app.recipe.controller import create_recipe, save_in_my_recipe, get_recipe, get_recipe_list, update_recipe, get_myrecipe_list
 
 from api.app.recipe import controller
 from cloudinary.uploader import upload
@@ -9,7 +8,7 @@ from api.utils import APIException
 from flask_jwt_extended import jwt_required
 
 from flask_jwt_extended import get_jwt_identity
-from api.models.index import db, Recipe, User, Ingredient, Recipe_ingredient,MyRecipe
+from api.models.index import db, Recipe, User, Ingredient, RecipeIngredient, MyRecipe
 
 
 
@@ -25,56 +24,34 @@ recipes = Blueprint('recipes', __name__)
 @recipes.route('/create', methods=["POST"])
 @jwt_required()
 def create_recipe():
-    try:
-        img = request.files['img']
+    img = request.files.get('img')
+    if img:
+        try:
+            img = upload(img)["url"] 
+        except Exception as error:
+            logger.error("Error uploading img to cloudinary")
+            logger.exception(error)
+            raise APIException(status_code=400, payload={
+                'error': {
+                    'message': 'Error uploading img to cloudinary',
+                }
+            })
 
-        # print(f"cloudinary api key:{cloudinary._config.api_key}")
 
-        img_data = upload(img)
-       
-          
-    except KeyError as error:
-        logger.error("Missing img key in form-data")
-        raise APIException(status_code=400, payload={
-            'error': {
-                'message': 'Missing img key in form-data',
-            }
-        })
-   
-    except Exception as error:
-        logger.error("Error uploading img to cloudinary")
-        logger.exception(error)
-        raise APIException(status_code=400, payload={
-            'error': {
-                'message': 'Error uploading img to cloudinary',
-            }
-        })
-
-    url_img =img_data["url"]
     body = request.form.to_dict()
-
-    new_recipe = controller.create_recipe(body, url_img)
-
-    recipe_id=new_recipe["id"]
-
-    #save the recipe created in my_recipe:
-    save_in_my_recipe(body, recipe_id)
-
+    body['id_user'] = get_jwt_identity()['id']
+    new_recipe = controller.create_recipe(body, img)
+    
     if new_recipe is None:
         return jsonify('Internal server error'), 500
-    elif new_recipe == False:
+    if new_recipe == False:
         return jsonify('Bad Request'), 400
-    else:
-        return jsonify(new_recipe), 201
+   
+    #save the recipe created in my_recipe:
+    controller.save_in_my_recipe(body, new_recipe["id"])
 
+    return jsonify(new_recipe), 201
 
-
-# get for private recipes needs token
-@recipes.route('/get/<id>', methods = ['GET'])
-@jwt_required()
-def get_my_recipe(id):
-       
-    recipe = controller.get_recipe(id)
 
 #save public recipe in MyRecipe: body with recipe_id, id_user and tag
 @recipes.route('/myrecipes/save', methods=["POST"])
@@ -89,14 +66,10 @@ def save_in_my_recipe():
             'error': {
                 'message': "missing recipe_id",
             }
-        })   
-
+        })
     controller.save_in_my_recipe(body,recipe_id)
 
-    return jsonify("Recipe saved correctly"),201
-
-
-
+    return jsonify("Recipe saved correctly"), 201
 
 # get for my_recipes, private recipes with token
 @recipes.route('/myrecipes/get/<id>', methods = ['GET'])
@@ -137,7 +110,6 @@ def update_recipe(id):
 
 #get public recipes_list
 @recipes.route('/', methods=['GET'])
-
 def get_recipe_list():
     page = int(request.args.get('page', 1))
     search = request.args.get('search')
@@ -148,7 +120,6 @@ def get_recipe_list():
 #get private recipes list from my_recipies
 @recipes.route('/myrecipes', methods=['GET'])
 @jwt_required()
-
 def get_myrecipe_list():
     user_token=get_jwt_identity()
     user=User.query.get(user_token)

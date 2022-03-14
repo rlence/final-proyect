@@ -51,7 +51,7 @@ export const Register = () => {
             setErrorMessage(data["error"]["message"]);
           } else {
             setErrorMessage("");
-            localStorage.setItem("token", JSON.stringify(data));
+            localStorage.setItem("token", data["token"]);
             history.push("/");
           }
         })
@@ -67,7 +67,7 @@ export const Register = () => {
       {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
       <div className="mb-3">
         <form>
-          <label>
+          <label className="form-label">
             Nombre*
             <input
               type="text"
@@ -76,7 +76,7 @@ export const Register = () => {
             />
           </label>
           <br />
-          <label>
+          <label className="form-label">
             Apellidos
             <input
               type="text"
@@ -85,7 +85,7 @@ export const Register = () => {
             />
           </label>
           <br />
-          <label>
+          <label className="form-label">
             Email*
             <input
               type="email"
@@ -94,7 +94,7 @@ export const Register = () => {
             />
           </label>
           <br />
-          <label>
+          <label className="form-label">
             Contraseña*
             <input
               type="password"
@@ -103,7 +103,7 @@ export const Register = () => {
             />
           </label>
           <br />
-          <label className="last-label">
+          <label className="form-label last-label">
             Repetir contraseña*
             <input
               type="password"

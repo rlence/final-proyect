@@ -121,34 +121,29 @@ data = {
             
         },
     ],
-    "Recipe_ingredient":[
+    "RecipeIngredient":[
         {
             "id": 1000000,
-            "quantity": 200,
             "id_ingredient": 1000001,
             "id_recipe": 10000001,
             
         },
          {
             "id": 2000000,
-            "quantity": 100,
             "id_ingredient": 1000001,
             "id_recipe":  10000002,
             
         },
          {
             "id": 3000000,
-            "quantity": 30,
             "id_ingredient": 1000003,
             "id_recipe":  10000002,
             
         },
          {
             "id": 4000000, 
-            "quantity": 70,
             "id_ingredient": 1000001,
-            "id_recipe": 10000003,
-            
+            "id_recipe": 10000003, 
         }
 
     ]

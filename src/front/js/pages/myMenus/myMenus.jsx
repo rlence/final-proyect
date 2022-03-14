@@ -1,8 +1,8 @@
 import React from "react";
 
-import "../misMenus/misMenus.css";
+import "../myMenus/myMenus.css";
 
-export const MisMenus = () => {
+export const MyMenus = () => {
   return (
     <div>
       <p>Estás en mis menús</p>
