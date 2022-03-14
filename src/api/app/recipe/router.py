@@ -69,6 +69,13 @@ def create_recipe():
 
 
 
+# get for private recipes needs token
+@recipes.route('/get/<id>', methods = ['GET'])
+@jwt_required()
+def get_my_recipe(id):
+       
+    recipe = controller.get_recipe(id)
+
 #save public recipe in MyRecipe: body with recipe_id, id_user and tag
 @recipes.route('/myrecipes/save', methods=["POST"])
 @jwt_required()
