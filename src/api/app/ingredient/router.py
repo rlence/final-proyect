@@ -6,6 +6,7 @@ from api.app.ingredient.controler import create_ingredient, list_ingredient
 ingredients = Blueprint('ingredients', __name__)
 
 @ingredients.route('/create', methods=['POST'])
+@jwt_required()
 def add_ingredient():
     body = request.get_json()
 
