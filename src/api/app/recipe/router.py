@@ -53,7 +53,7 @@ def create_recipe():
 # get for private recipes needs token
 @recipes.route('/get/<id>', methods = ['GET'])
 @jwt_required()
-def get_recipe(id):
+def get_my_recipe(id):
        
     recipe = controller.get_recipe(id)
 
