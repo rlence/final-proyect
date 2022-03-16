@@ -1,3 +1,4 @@
+from datetime import timedelta
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import create_access_token
 
@@ -68,7 +69,7 @@ def login_user(body):
         if validate_pass == False:
             return 'pass not iqual'
 
-        new_token = create_access_token(identity={'id': current_user.id})
+        new_token = create_access_token(identity={'id': current_user.id}, expires_delta=timedelta(weeks=4))
         return { 'token': new_token }
         
     except Exception as err:
