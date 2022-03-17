@@ -17,3 +17,11 @@ export const createRecipe = (payload) => {
     },
   });
 };
+
+export const getRecipe = (id) => {
+  return fetch(`${BaseUrl}/recipe/myrecipes/get/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};

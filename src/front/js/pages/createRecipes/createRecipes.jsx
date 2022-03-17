@@ -202,7 +202,7 @@ export const CreateRecipes = () => {
       </div>
       <div className="row">
         <div className="col">
-          <div class="d-grid gap-2">
+          <div className="d-grid gap-2">
             <button type="button" className="btn btn-primary" onClick={submit}>
               Crear receta
             </button>

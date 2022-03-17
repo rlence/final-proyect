@@ -5,7 +5,7 @@ class RecipeIngredient(db.Model):
     id_ingredient= db.Column(db.Integer, db.ForeignKey('ingredient.id'))
     id_recipe= db.Column(db.Integer, db.ForeignKey('recipe.id'))
   
-    # ingredient = db.relationship('Ingredient')
+    ingredient = db.relationship('Ingredient')
     # recipe = db.relationship('Recipe')
 
   

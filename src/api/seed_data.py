@@ -21,6 +21,26 @@ data = {
     ],
     "Ingredient":[
         {
+            "id": 1000005,
+            "name": 'Huevos'
+        },
+        {
+            "id": 1000004,
+            "name": 'Lenche entera'
+        },
+        {
+            "id": 1000004,
+            "name": 'Extracto de vainilla'
+        },
+        {
+            "id": 1000005,
+            "name": 'Levadura química'
+        },
+        {
+            "id": 1000006,
+            "name": 'Azúcar'
+        },
+        {
             "id": 1000001,
             "name": 'Espinacas'
         },

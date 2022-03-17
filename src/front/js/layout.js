@@ -12,6 +12,7 @@ import { Register } from "./pages/register/register.jsx";
 import { MyRecipes } from "./pages/myRecipes/myRecipes.jsx";
 import { MyMenus } from "./pages/myMenus/myMenus.jsx";
 import { CreateRecipes } from "./pages/createRecipes/createRecipes.jsx";
+import { ViewRecipe } from "./pages/viewRecipe/viewRecipe.jsx";
 
 import { Navbar } from "./component/navbar/navbar.jsx";
 import { Footer } from "./component/footer.jsx";
@@ -45,6 +46,9 @@ const Layout = () => {
             </Route>
             <Route exact path="/recipes/create">
               <CreateRecipes />
+            </Route>
+            <Route exact path="/recipes/:recipe_id">
+              <ViewRecipe />
             </Route>
             <Route>
               <h1>Not found!</h1>

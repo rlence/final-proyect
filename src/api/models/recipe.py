@@ -5,12 +5,12 @@ class Recipe(db.Model):
     photo = db.Column(db.String(200), unique=False, nullable=True)
     title = db.Column(db.String(80), unique=False, nullable=False)
     tag = db.Column(db.Integer)
-    description = db.Column(db.String(1000), unique=False, nullable=False)
+    description = db.Column(db.Text, unique=False, nullable=False)
     private = db.Column(db.Boolean, default=False)
     id_user= db.Column(db.Integer, db.ForeignKey('user.id'))
   
     user = db.relationship('User', backref='recipe_user')
-    ingredients = db.relationship('RecipeIngredient')
+    recipe_ingredients = db.relationship('RecipeIngredient')
 
 
     def __repr__(self):
