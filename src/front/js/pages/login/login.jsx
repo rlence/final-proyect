@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import "../login/login.css";
 import { useHistory } from "react-router-dom";
 import { loginUser } from "../../service/user";
@@ -14,6 +14,7 @@ export const Login = () => {
     loginUser(email, passw)
       .then((resp) => resp.json())
       .then((data) => {
+        console.log(data)
         if (data == "user not exist") {
           setMessage("User does not exist");
           setShowSpinner(false);

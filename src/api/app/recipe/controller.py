@@ -142,20 +142,16 @@ def get_recipe_list(page=1, per_page=20, search=""):
         )
 
 #get list recipies from my_recipe    
-def get_myrecipe_list(user_id,page=1, per_page=20):
+def get_myrecipe_list(user_id):
     
-        recipe_page = MyRecipe.query.filter_by(id_user=user_id).paginate(page,per_page)
-        print(recipe_page)
-        
+        get_recipe_list = MyRecipe.query.filter(MyRecipe.id_user==user_id)
+       
         recipe_list = [] 
-        for recipe in recipe_page.items:
+        for recipe in get_recipe_list:
             recipe_list.append(recipe.serialize()) 
 
-        return dict(
-            items=recipe_list, 
-            total=recipe_page.total, 
-            current_page=recipe_page.page
-        )
+        return recipe_list
+
 
 
 def update_recipe(recipe_id, recipe_params):

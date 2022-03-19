@@ -5,4 +5,6 @@ def encryp_pass(password):
     return hash_pass.decode()
 
 def compare_pass(password, hash_pass):
+    print ("estoy en el compare pass")
+    print(password,hash_pass)
     return bcrypt.checkpw(password.encode('utf-8'), hash_pass.encode('utf-8'))

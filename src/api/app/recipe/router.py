@@ -124,9 +124,7 @@ def get_recipe_list():
 def get_myrecipe_list():
     user_token=get_jwt_identity()
     user=User.query.get(user_token)
-    page = int(request.args.get('page', 1))   
-    recipe_list =  controller.get_myrecipe_list(user.id,page=page)
-
+    recipe_list =  controller.get_myrecipe_list(user.id)
     if user is None:
         return jsonify('user not found'), 404
     else:
