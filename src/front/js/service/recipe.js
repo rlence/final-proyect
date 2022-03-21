@@ -31,14 +31,13 @@ export const listRecipe = () => {
   });
 };
 
-// export const get_myrecipe =(id) => {
-//   return fetch(`${BaseUrl}/recipe/myrecipes/get/${id}`, {
-//     method: "GET",
-//     headers: {
 
-//       Authorization: `Bearer ${localStorage.getItem("token")}`,
-//     },
-//   });
+export const getRecipe = (id) => {
+  return fetch(`${BaseUrl}/recipe/myrecipes/get/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
 
-// };
 
