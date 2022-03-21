@@ -33,12 +33,12 @@ export const MyRecipes = () => {
     recipes();  
      }, []);
 
-  console.log(recipeList,"recipeList");
-  console.log(copyRecipeList,"copyrecipeList");
+  // console.log(recipeList,"recipeList");
+  // console.log(copyRecipeList,"copyrecipeList");
 
   const handleChange = (e) => {
     const search = e.target.value
-    console.log(search)
+    // console.log(search)
    
 
     if (search===""){

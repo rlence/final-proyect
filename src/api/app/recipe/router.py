@@ -114,7 +114,7 @@ def update_recipe(id):
 def get_recipe_list():
     page = int(request.args.get('page', 1))
     search = request.args.get('search')
-    recipe_list =  controller.get_recipe_list(page=page, search=search)
+    recipe_list = controller.get_recipe_list(page=page, search=search)
 
     return jsonify(recipe_list), 200
 
