@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { Context } from "../../store/appContext";
 
 import "./register.css";
 import { registerService } from "../../service/user";
 
 export const Register = () => {
+  const { actions } = useContext(Context);
   const history = useHistory();
   const [isLoading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -52,6 +54,7 @@ export const Register = () => {
           } else {
             setErrorMessage("");
             localStorage.setItem("token", data["token"]);
+            actions.changeLogged(true);
             history.push("/");
           }
         })

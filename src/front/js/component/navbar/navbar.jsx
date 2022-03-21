@@ -1,16 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../../store/appContext";
 
 import "../navbar/navbar.css";
 
 export const Navbar = () => {
-  const [isLogged, setIsLogged] = useState(false);
+  const { store, actions } = useContext(Context);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      setIsLogged(true);
+      actions.changeLogged(true);
     }
-  });
+  }, []);
+
+  const logout = () => {
+    localStorage.clear();
+    actions.changeLogged(false);
+  };
 
   return (
     <nav className="navbar navbar-light">
@@ -24,7 +30,7 @@ export const Navbar = () => {
           </span>
         </Link>
       </div>
-      {!isLogged ? (
+      {!store.isLogged ? (
         <div className="container-buttons">
           <Link to="/register">
             <button className="btn btn-primary">Registro</button>
@@ -40,6 +46,11 @@ export const Navbar = () => {
           </Link>
           <Link to="/my-menus">
             <button className="btn btn-primary">Mis menús</button>
+          </Link>
+          <Link to="/">
+            <button className="btn btn-primary" onClick={logout}>
+              Salir
+            </button>
           </Link>
         </div>
       )}

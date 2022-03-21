@@ -1,9 +1,11 @@
-import React, {useState } from "react";
+import React, { useState, useContext } from "react";
 import "../login/login.css";
 import { useHistory } from "react-router-dom";
 import { loginUser } from "../../service/user";
+import { Context } from "../../store/appContext";
 
 export const Login = () => {
+  const { actions } = useContext(Context);
   const [email, setEmail] = useState("");
   const [passw, setPassw] = useState("");
   const [message, setMessage] = useState("");
@@ -14,12 +16,13 @@ export const Login = () => {
     loginUser(email, passw)
       .then((resp) => resp.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
         if (data == "user not exist") {
           setMessage("User does not exist");
           setShowSpinner(false);
         } else {
           localStorage.setItem("token", data["token"]);
+          actions.changeLogged(true);
           history.push("/");
         }
       })
