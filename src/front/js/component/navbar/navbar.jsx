@@ -41,6 +41,9 @@ export const Navbar = () => {
         </div>
       ) : (
         <div className="container-buttons menu">
+          <Link to="/recipes/">
+            <button className="btn btn-primary">Recetas</button>
+          </Link>
           <Link to="/my-recipes">
             <button className="btn btn-primary">Mis recetas</button>
           </Link>

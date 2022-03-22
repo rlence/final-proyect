@@ -11,8 +11,7 @@ export const MyRecipes = () => {
   const { store, actions } = useContext(Context);
   const [recipeList, setRecipeList] = useState([]);
   const [copyRecipeList, setCopyRecipeList] = useState([]);
-  
- 
+
   const [loading, setLoading] = useState(false);
 
   const recipes = async () => {
@@ -21,7 +20,7 @@ export const MyRecipes = () => {
       const res = await listRecipe();
       const data = await res.json();
       setRecipeList(data);
-      setCopyRecipeList(data)
+      setCopyRecipeList(data);
     } catch (err) {
       console.log(err);
     } finally {
@@ -30,33 +29,26 @@ export const MyRecipes = () => {
   };
 
   useEffect(() => {
-    recipes();  
-     }, []);
-
-  // console.log(recipeList,"recipeList");
-  // console.log(copyRecipeList,"copyrecipeList");
+    recipes();
+  }, []);
 
   const handleChange = (e) => {
-    const search = e.target.value
-    // console.log(search)
-   
+    const search = e.target.value;
 
-    if (search===""){
+    if (search === "") {
       setRecipeList(copyRecipeList);
-    }else {
-      
-      const newListFilter= copyRecipeList.filter(recipe =>{
-        const titleRecipe= recipe.recipe.title;
-        if(titleRecipe.toLowerCase().indexOf(search.toLowerCase()) >= 0){
+    } else {
+      const newListFilter = copyRecipeList.filter((recipe) => {
+        const titleRecipe = recipe.recipe.title;
+        if (titleRecipe.toLowerCase().indexOf(search.toLowerCase()) >= 0) {
           return recipe;
         }
       });
-      
-    setRecipeList(newListFilter)
+
+      setRecipeList(newListFilter);
     }
-  }
- 
-       
+  };
+
   return (
     <div className="container">
       {store.successMessage && (
@@ -80,18 +72,14 @@ export const MyRecipes = () => {
           <button className="btn btn-primary">Crear receta</button>
         </Link>
 
-        
-         <div className="search col-md-3">
+        <div className="search col-md-3">
           <form className="d-flex mb-3" onChange={handleChange}>
-           
             <input
-              aria-label="Search"              
+              aria-label="Search"
               type="search"
               className="form-control me-2"
               placeholder="Buscar receta..."
-            />    
-           
-          
+            />
           </form>
         </div>
       </section>
@@ -99,12 +87,12 @@ export const MyRecipes = () => {
         {loading ? (
           <Spinner />
         ) : (
-          recipeList.map((recipe) => (
+          recipeList.map((myRecipe) => (
             <Card
-              key={recipe.id}
-              title={recipe.recipe.title}
-              img={recipe.recipe.photo}
-              id = {recipe.id}
+              key={myRecipe.id}
+              title={myRecipe.recipe.title}
+              img={myRecipe.recipe.photo}
+              id={myRecipe.recipe.id}
             />
           ))
         )}
