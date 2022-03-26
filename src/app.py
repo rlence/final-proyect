@@ -11,6 +11,7 @@ from api.models.db import db
 from api.app.user.router import users
 from api.app.ingredient.router import ingredients
 from api.app.recipe.router import recipes
+from api.app.menu.router import menus
 
 from api.admin import setup_admin
 from flask_jwt_extended import JWTManager
@@ -59,6 +60,7 @@ setup_admin(app)
 app.register_blueprint(users, url_prefix="/api/user")
 app.register_blueprint(ingredients, url_prefix="/api/ingredient")
 app.register_blueprint(recipes, url_prefix="/api/recipe")
+app.register_blueprint(menus, url_prefix="/api/menu")
 
 
 cloudinary.config( 

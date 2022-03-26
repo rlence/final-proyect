@@ -2,12 +2,13 @@ from api.models.db import db
 
 class Menu(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80), unique=False, nullable=False)
     create_at = db.Column(db.Date)
-
-    weeks = db.Column(db.Integer)
+    assignation_date = db.Column(db.Date)
     id_user= db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    recipe_menu = db.relationship('Recipe_menu')
     user = db.relationship('User', backref='user_menu')
+
 
   
 
@@ -17,10 +18,6 @@ class Menu(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "title": self.title,
-            "create_at": self.create,
+            "create_at": self.create_at.isoformat(),
             "id_user": self.id_user,
-            "weeks": self.weeks
-
-            
         }

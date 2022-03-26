@@ -711,20 +711,20 @@ data = {
     "Menu":[
         {
             "id": 1000,
-            "title": "Menus ligth",
             "create_at": datetime.datetime.now(),
+            "assignation_date": datetime.datetime.now(),
             "id_user": 100000002,
         },
         {
             "id": 1002,
-            "title": "Menus niños",
             "create_at":  datetime.datetime.now(),
+            "assignation_date": datetime.datetime.now(),
             "id_user": 100000002,
         },
         {
             "id": 1003,
-            "title": "Menu verano",
             "create_at": datetime.datetime.now(),
+            "assignation_date": datetime.datetime.now(),
             "id_user": 100000001,
         }
 
@@ -734,16 +734,23 @@ data = {
             "id": 1000001,
             "id_menu":1002,
             "id_recipe": 10000,
+            "selected_tag":2,
+            "selected_date": datetime.datetime.now() - timedelta(days=datetime.datetime.now().weekday())
         },
         {
             "id": 1000002,
             "id_menu": 1002,
             "id_recipe": 10001,
+            "selected_tag":1,
+            "selected_date": datetime.datetime.now() - timedelta(days=datetime.datetime.now().weekday())
+            
         },
         {
             "id": 1000003,
             "id_menu": 1002,
             "id_recipe": 10002,
+            "selected_tag":1,
+            "selected_date": datetime.datetime.now() - timedelta(days=datetime.datetime.now().weekday() + 1)
         },
     ],
     "RecipeIngredient":[
