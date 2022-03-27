@@ -729,7 +729,7 @@ data = {
         }
 
     ],
-    "Recipe_menu":[
+    "RecipeMenu":[
         {
             "id": 1000001,
             "id_menu":1002,

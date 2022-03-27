@@ -8,5 +8,5 @@ from api.models.my_recipe import MyRecipe
 from api.models.comment import Comment
 from api.models.menu import Menu
 from api.models.recipe_ingredient import RecipeIngredient
-from api.models.recipe_menu import Recipe_menu
+from api.models.recipe_menu import RecipeMenu
 

@@ -9,7 +9,7 @@ class User(db.Model):
     last_name = db.Column(db.String(200), unique=False, nullable=True)
 
     def __repr__(self):
-        return '<User %r>' % self.id
+        return f'<User {self.id} {self.name}>'
 
     def serialize(self):
         return {

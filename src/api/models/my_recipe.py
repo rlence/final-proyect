@@ -7,8 +7,7 @@ class MyRecipe(db.Model):
     user = db.relationship('User', backref='user_myrecipe')
     id_recipe= db.Column(db.Integer, db.ForeignKey('recipe.id'))
     recipe = db.relationship('Recipe')
-  
-  
+
 
     def __repr__(self):
         return '<MyRecipe %r>' % self.id
@@ -17,7 +16,5 @@ class MyRecipe(db.Model):
         return {
             "id": self.id,
             "user": self.user.serialize(),
-            "recipe": self.recipe.serialize()
-            
-            
+            "recipe": self.recipe.serialize(),
         }

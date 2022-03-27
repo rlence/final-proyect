@@ -5,12 +5,13 @@ class Menu(db.Model):
     create_at = db.Column(db.Date)
     assignation_date = db.Column(db.Date)
     id_user= db.Column(db.Integer, db.ForeignKey('user.id'))
-
-    recipe_menu = db.relationship('Recipe_menu')
+    recipe_menu = db.relationship(
+                    'RecipeMenu',
+                    cascade="all,delete",
+                    order_by='RecipeMenu.selected_date',
+                )
     user = db.relationship('User', backref='user_menu')
 
-
-  
 
     def __repr__(self):
         return '<Menu %r>' % self.id

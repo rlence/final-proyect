@@ -4,6 +4,8 @@ from api.app.menu import controller
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import get_jwt_identity
 from datetime import datetime
+from api.utils import APIException
+
 
 from logging import getLogger
 
@@ -21,3 +23,30 @@ def get_menu(assignation_date):
     else:
         return jsonify(menu), 200
 
+
+@menus.route('/auto', methods=['POST'])
+@jwt_required()
+def generate_auto_menu():
+    body = request.get_json()
+    if body is None:
+        logger.error("missing body")
+        raise APIException(status_code=400, payload={
+            'error': {
+                'message': "missing body",
+            }
+        })
+    if body.get('assignation_date') is None:
+        logger.error("missing assignation date")
+        raise APIException(status_code=400, payload={
+            'error': {
+                'message': "missing assignation date",
+            }
+        })
+
+    body['assignation_date'] = datetime.strptime(body.get('assignation_date'), "%Y-%m-%dT%H:%M:%S.%fZ")
+    body['id_user'] = get_jwt_identity()['id']
+
+    
+    new_auto_menu = controller.generate_auto_menu(body)
+
+    return jsonify(new_auto_menu), 201
