@@ -50,3 +50,27 @@ def generate_auto_menu():
     new_auto_menu = controller.generate_auto_menu(body)
 
     return jsonify(new_auto_menu), 201
+
+
+@menus.route('/recipe_menu/<id_recipe_menu>', methods=['PUT'])
+@jwt_required()
+def change_recipe_menu(id_recipe_menu):
+    body = request.get_json()
+    if body is None:
+        logger.error("missing body")
+        raise APIException(status_code=400, payload={
+            'error': {
+                'message': "missing body",
+            }
+        })
+    if body.get('id_recipe') is None:
+        logger.error("missing id recipe menu")
+        raise APIException(status_code=400, payload={
+            'error': {
+                'message': "missing id recipe menu",
+            }
+        })
+
+    controller.change_recipe_menu(id_recipe_menu, body['id_recipe'])
+
+    return jsonify(), 202

@@ -93,3 +93,8 @@ def generate_auto_menu(body):
 
     return get_menu(body['assignation_date'])
     
+
+def change_recipe_menu(id_recipe_menu, recipe_id):
+    recipe_menu = RecipeMenu.query.get(id_recipe_menu)
+    recipe_menu.id_recipe = recipe_id
+    db.session.commit()

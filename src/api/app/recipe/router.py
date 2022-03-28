@@ -105,7 +105,7 @@ def get_recipe(id):
 @jwt_required()
 def update_recipe(id):
     body = request.get_json()
-    recipe = (controller.update_recipe(id, body))
+    recipe = controller.update_recipe(id, body)
 
     return jsonify(recipe.serialize())
 
