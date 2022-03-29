@@ -21,12 +21,11 @@ def create_recipe(body, url_img=None):
                 'message': 'missing body',
             }
         })
-
     recipe_info = {
         "photo":url_img,
         "title":body.get('title'),
         "description": body.get('description'),
-        "private": bool(body.get('private')),
+        "private": (body.get('private')=="true"),
         "id_user": body.get('id_user'), 
                
     }
