@@ -14,6 +14,7 @@ export const MyMenus = () => {
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [week, setWeek] = useState([]);
+  const [warningMessage, setWarningMessage] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -36,9 +37,18 @@ export const MyMenus = () => {
     autoMenu(currentDate.toISOString())
       .then((response) => response.json())
       .then((data) => {
-        setMenu(data);
-        setMenuNotFound(false);
+        debugger;
+        if (data.error.message == "insufficient recipes") {
+          setWarningMessage("No tienes recetas suficientes para crear un menú");
+        } else {
+          setMenu(data);
+          setMenuNotFound(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
       });
+
     setLoading(false);
   };
 
@@ -112,6 +122,11 @@ export const MyMenus = () => {
 
   return (
     <div className="container">
+      {warningMessage && (
+        <div className="alert alert-warning" role="alert">
+          No tienes recetas suficientes para crear un menú.
+        </div>
+      )}
       {menuNotFound ? (
         <section className="new-menu">
           <button className="btn btn-primary" onClick={newMenu}>

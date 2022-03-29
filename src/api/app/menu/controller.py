@@ -4,14 +4,17 @@ from sqlalchemy import func, or_
 from datetime import datetime, timedelta
 from random import randint
 from api.models.index import db, Menu, MyRecipe, RecipeMenu
+from flask_jwt_extended import get_jwt_identity
 from logging import getLogger
 
 logger = getLogger(__name__)
 
 def find_menu_by_date(assignation_date):
+    id_user = get_jwt_identity()['id']
     first_day_of_week = assignation_date - timedelta(days=assignation_date.weekday())
     last_day_of_week = first_day_of_week + timedelta(days=6)
     menu = Menu.query.filter(
+        Menu.id_user==id_user,
         func.date(Menu.assignation_date) >= first_day_of_week.date(),
         func.date(Menu.assignation_date) <= last_day_of_week.date()).first()
     
@@ -60,6 +63,12 @@ def generate_recipe_menu_random(user_id,menu_id,to_tag, first_day):
     
     for n in range(7):
         current_date = first_day + timedelta(days=n)
+        if my_recipe_list.count() == 0:
+            raise APIException(status_code=400, payload={
+                'error': {
+                    'message': "insufficient recipes",
+                }
+            })
         number_of_my_recipe = randint(0, my_recipe_list.count())
         selected_recipe = my_recipe_list[number_of_my_recipe - 1].recipe
         new_recipe_menu = RecipeMenu(
