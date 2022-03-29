@@ -9,9 +9,22 @@ from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
 from api.models.db import db
 from api.app.user.router import users
-from api.app.post.router import posts
+from api.app.ingredient.router import ingredients
+from api.app.recipe.router import recipes
+from api.app.menu.router import menus
+
 from api.admin import setup_admin
 from flask_jwt_extended import JWTManager
+
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
+
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 #from models import Person
 
 ENV = os.getenv("FLASK_ENV")
@@ -29,6 +42,9 @@ else:
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_KEY")
+app.config["CLOUD_NAME"] = os.environ.get("CLOUD_NAME")
+app.config["CLOUD_API_KEY"] = os.environ.get("CLOUD_API_KEY")
+app.config["CLOUD_API_SECRET"] = os.environ.get("CLOUD_API_SECRET")
 
 MIGRATE = Migrate(app, db, compare_type = True)
 db.init_app(app)
@@ -42,7 +58,19 @@ setup_admin(app)
 
 
 app.register_blueprint(users, url_prefix="/api/user")
-app.register_blueprint(posts, url_prefix="/api/post")
+app.register_blueprint(ingredients, url_prefix="/api/ingredient")
+app.register_blueprint(recipes, url_prefix="/api/recipe")
+app.register_blueprint(menus, url_prefix="/api/menu")
+
+
+cloudinary.config( 
+  cloud_name = app.config["CLOUD_NAME"], 
+  api_key = app.config["CLOUD_API_KEY"], 
+  api_secret = app.config["CLOUD_API_SECRET"],
+  secure = True
+)
+
+# print(app.config["CLOUD_API_KEY"],"apiKey" )
 
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)

@@ -1,0 +1,21 @@
+.navbar {
+  width: 100%;
+  background-color: white;
+}
+
+.container-logo {
+  margin-left: 2%;
+}
+
+.container-buttons {
+  display: flex;
+  bottom: 10%;
+  right: 2%;
+  margin-right: 2%;
+}
+
+.logo {
+  width: 20%;
+  left: 2%;
+  margin: auto;
+}
