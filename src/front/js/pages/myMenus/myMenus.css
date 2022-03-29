@@ -1,0 +1,16 @@
+.month {
+  font-size: 25px;
+  margin-left: 3%;
+}
+
+.bi-arrow-left {
+  margin-right: 4px;
+}
+
+.bi {
+  cursor: pointer;
+}
+
+.move-weeks {
+  margin-bottom: 3%;
+}

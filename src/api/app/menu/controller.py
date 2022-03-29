@@ -23,19 +23,22 @@ def get_menu(assignation_date):
         if not menu:
             return None
 
-        recipe_list = []
+        menu_recipe_list = []
         recipe_menu_list = menu.recipe_menu
         for recipe_menu in recipe_menu_list:
-            recipe_list.append({
-                "id": recipe_menu.recipe.id,
-                "title": recipe_menu.recipe.title,
+            menu_recipe_list.append({
+                "id": recipe_menu.id,
                 "selected_tag": recipe_menu.selected_tag,
                 "selected_date": recipe_menu.selected_date.isoformat(),
+                "recipe": {
+                    "id":  recipe_menu.recipe.id,
+                    "title": recipe_menu.recipe.title,
+                }
             })
 
         return {
             **menu.serialize(),
-            'recipe_list': recipe_list
+            'menu_recipe_list': menu_recipe_list
         }
     except Exception as error:
         logger.error("Error getting menu")
@@ -50,8 +53,8 @@ def generate_recipe_menu_random(user_id,menu_id,to_tag, first_day):
     my_recipe_list = MyRecipe.query.filter(
                         MyRecipe.id_user==user_id,
                         or_(
-                            MyRecipe.recipe.has(tag=to_tag),
-                            MyRecipe.recipe.has(tag=3),
+                            MyRecipe.tag==to_tag,
+                            MyRecipe.tag==3,
                         )
                     )
     
