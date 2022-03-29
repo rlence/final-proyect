@@ -14,9 +14,11 @@ import { MyMenus } from "./pages/myMenus/myMenus.jsx";
 import { CreateRecipes } from "./pages/createRecipes/createRecipes.jsx";
 import { ViewRecipe } from "./pages/viewRecipe/viewRecipe.jsx";
 import { FeedRecipes } from "./pages/feedRecipes/feedRecipes.jsx";
+import { UpdateRecipes } from "./pages/updateRecipe/updateRecipe.jsx";
 
 import { Navbar } from "./component/navbar/navbar.jsx";
 import { Footer } from "./component/footer.jsx";
+
 
 //create your first component
 const Layout = () => {
@@ -53,6 +55,9 @@ const Layout = () => {
             </Route>
             <Route exact path="/recipes/">
               <FeedRecipes/>
+            </Route>
+            <Route exact path="/recipes/update/:recipe_id">
+              <UpdateRecipes/>
             </Route>
             <Route>
               <h1>Not found!</h1>

@@ -3,14 +3,13 @@ from api.models.db import db
 class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     photo = db.Column(db.String(200), unique=False, nullable=True)
-    title = db.Column(db.String(80), unique=False, nullable=False)
-    tag = db.Column(db.Integer)
+    title = db.Column(db.String(80), unique=False, nullable=False)   
     description = db.Column(db.Text, unique=False, nullable=False)
     private = db.Column(db.Boolean, default=False)
     id_user= db.Column(db.Integer, db.ForeignKey('user.id'))
   
     user = db.relationship('User', backref='recipe_user')
-    recipe_ingredients = db.relationship('RecipeIngredient')
+    recipe_ingredients = db.relationship('RecipeIngredient')    
 
 
     def __repr__(self):
@@ -24,5 +23,5 @@ class Recipe(db.Model):
             "description": self.description,
             "private": self.private,
             "id_user": self.id_user,
-            "tag": self.tag 
+            
         }

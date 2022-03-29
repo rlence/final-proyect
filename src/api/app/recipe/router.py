@@ -60,6 +60,12 @@ def save_in_my_recipe():
     body = request.get_json()
     recipe_id = body.get('id_recipe')
    
+    user_token=get_jwt_identity()    
+    user=User.query.get(user_token)
+    id_user = user.id
+
+    body["id_user"] = id_user
+    
     if recipe_id is None:
         logger.error("missing recipe_id")
         raise APIException(status_code=400, payload={
@@ -67,37 +73,52 @@ def save_in_my_recipe():
                 'message': "missing recipe_id",
             }
         })
+    
     controller.save_in_my_recipe(body,recipe_id)
 
     return jsonify("Recipe saved correctly"), 201
 
-# get for my_recipes, private recipes with token
-@recipes.route('/myrecipes/get/<id>', methods = ['GET'])
-@jwt_required()
-def get_my_recipe(id):
-   
-    recipe = controller.get_recipe(id)
-    if recipe is None:
-        return jsonify('user not found'), 404
 
-    if recipe.get("private"):
-        user_token=get_jwt_identity()
+#get MyRecipe: body with id_recipe
+@recipes.route('/myrecipe/<id_recipe>', methods=["GET"])
+@jwt_required()
+def get_myRecipe(id_recipe):           
+    user_token=get_jwt_identity()    
+    user_id = None
+    if user_token is not None:
         user=User.query.get(user_token)
-        if user.id != recipe['id_user']:
-             raise APIException(status_code= 403, payload={
+        if user is None:
+            raise APIException(status_code= 403, payload={
                 'error':{
-                    'message': "This recipe is private, and belongs to another user"
+                    'message': "This token doesn't belong to any user"
                 }
             })
-            
-    return jsonify(recipe)
+        user_id = user.id
+        print(user_id)
+    
+    my_recipe = controller.get_myRecipe(id_recipe, user_id)
+    return jsonify(my_recipe)
 
        
 # get for public recipes without token   
 @recipes.route('/get/<id>', methods = ['GET'])
+@jwt_required(optional=True)
 def get_recipe(id):           
-    recipe = controller.get_recipe(id)
-    return jsonify(recipe.serialize())
+    user_token=get_jwt_identity()    
+    user_id = None
+    if user_token is not None:
+        user=User.query.get(user_token)
+        if user is None:
+            raise APIException(status_code= 403, payload={
+                'error':{
+                    'message': "This token doesn't belong to any user"
+                }
+            })
+        user_id = user.id
+        print(user_id)
+    
+    recipe = controller.get_recipe(id, user_id)
+    return jsonify(recipe)
 
     
 #update a recipe I have created
@@ -132,38 +153,55 @@ def get_myrecipe_list():
     
 
 #to update "tag":lunch, dinner, both" in public recipes saveded in my_recipe:
-@recipes.route('/myrecipes/update/<id>', methods = ['PUT'])
+@recipes.route('/myrecipes/update/<id_recipe>', methods = ['PUT'])
 @jwt_required()
-def update_myrecipe(id):
+def update_myrecipe(id_recipe):
     #recieved "tag" in body
     body = request.get_json()
+    user_token=get_jwt_identity()    
+    user_id = None
+    if user_token is not None:
+        user=User.query.get(user_token)
+        if user is None:
+            raise APIException(status_code= 403, payload={
+                'error':{
+                    'message': "This token doesn't belong to any user"
+                }
+            })
+        user_id = user.id
 
-    my_recipe_info={
-        "id_recipe": id,
-        "id_user": body.get('id_user'), 
-        "tag" :body.get('tag')
-
-    }
-
-    if my_recipe_info['tag'] is None:
+    tag = body.get('tag')
+    if tag is None:
         logger.error("missing tag")
         raise APIException(status_code=400, payload={
             'error': {
                 'message': 'missing tag',
             }
         })    
+    
 
-    my_new_recipe = MyRecipe(**my_recipe_info)
-    db.session.add(my_new_recipe)
+    myrec = MyRecipe.query.filter_by(id_recipe=id_recipe,id_user=user_id).first()
+    myrec.tag = tag
+    db.session.add(myrec)
     db.session.commit()
-    return jsonify("Tag changes save correctly in MyRecipes")
+
+    # Return the whole recipe that was affected
+    rec = controller.get_recipe(myrec.id_recipe, user_id)
+    return jsonify(rec),200
 
 #delete public recipies in my_recipe
 @recipes.route('/myrecipes/<id>', methods = ['DELETE'])
 @jwt_required()
 def delete_in_myrecipes(id):
     try:
-        recipe=  MyRecipe.query.get(id)
+        user_token=get_jwt_identity()
+        user=User.query.get(user_token)
+        origin_recipe = Recipe.query.get(id)        
+        if user.id==Recipe.id_user and Recipe.private==true:
+            db.session.delete(origin_recipe)
+            db.session.commit()        
+
+        recipe=  MyRecipe.query.filter_by(id_recipe=id).first()        
         db.session.delete(recipe)
         db.session.commit()
         return jsonify('Recipe delete correctly')
@@ -171,5 +209,7 @@ def delete_in_myrecipes(id):
     except Exception as error:
         print("Error deleting recipe:", error)
         db.session.rollback()
-        return None
+        return "error deleting recipe"
+
+
 
