@@ -214,7 +214,7 @@ def update_recipe(recipe_id, recipe_params):
             db.session.add(ri)
 
         # Remove recipe_ingredients because these are relations from ingredients to recipe
-        to_remove = ["ingredient_list", "is_owner"]
+        to_remove = ["ingredient_list", "is_owner", "is_saved","tag"]
         for param in to_remove:
             del(recipe_params[param])
         num_rows_updated = Recipe.query.filter_by(id=recipe_id).update(recipe_params)
