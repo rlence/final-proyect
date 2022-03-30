@@ -112,7 +112,7 @@ export const FeedRecipes = () => {
         )}
       </div>
 
-      <nav aria-label="Page navigation example">
+      <nav className= "recipe-pagination" aria-label="Page navigation example">
         <ul className="pagination justify-content-center">
           <li className="page-item" onClick={previousPage}>
             <a className="page-link" href="#" aria-label="Previous">

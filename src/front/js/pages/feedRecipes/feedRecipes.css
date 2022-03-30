@@ -13,7 +13,7 @@
     justify-content: space-around;
     gap:30px;
 }
-nav{
+.recipe-pagination{
     margin-top: 5%;
     bottom: 2%;
 }
