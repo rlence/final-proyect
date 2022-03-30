@@ -205,7 +205,10 @@ def update_recipe(recipe_id, recipe_params):
     """
     try:
         # Parse recipe params
-        recipe_params['private'] = recipe_params['private'] == "true"
+        try:
+            recipe_params['private'] = recipe_params['private'] == "true"
+        except KeyError:
+            pass
         # Update the ingredients list
         recipe_ingredients = json.loads(recipe_params["ingredient_list"])
         # Delete all existing ingredients
