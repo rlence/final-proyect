@@ -23,7 +23,7 @@ export const Login = () => {
         } else {
           localStorage.setItem("token", data["token"]);
           actions.changeLogged(true);
-          history.push("/");
+          history.push("/recipes/");
         }
       })
       .catch((err) => console.log(err));
