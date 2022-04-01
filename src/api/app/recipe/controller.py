@@ -204,8 +204,13 @@ def update_recipe(recipe_id, recipe_params):
     :param recipe_params: a dict with the fields to update in the existing recipe
     """
     try:
+        # Parse recipe params
+        try:
+            recipe_params['private'] = recipe_params['private'] == "true"
+        except KeyError:
+            pass
         # Update the ingredients list
-        recipe_ingredients = recipe_params["ingredient_list"]
+        recipe_ingredients = json.loads(recipe_params["ingredient_list"])
         # Delete all existing ingredients
         recipe = Recipe.query.filter_by(id=recipe_id).first()
         RecipeIngredient.query.filter(RecipeIngredient.id_recipe == recipe.id).delete()
@@ -216,7 +221,10 @@ def update_recipe(recipe_id, recipe_params):
         # Remove recipe_ingredients because these are relations from ingredients to recipe
         to_remove = ["ingredient_list", "is_owner", "is_saved","tag"]
         for param in to_remove:
-            del(recipe_params[param])
+            try:
+                del(recipe_params[param])
+            except KeyError:
+                pass
         num_rows_updated = Recipe.query.filter_by(id=recipe_id).update(recipe_params)
 
 

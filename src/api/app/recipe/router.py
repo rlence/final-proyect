@@ -125,7 +125,23 @@ def get_recipe(id):
 @recipes.route('/update/<id>', methods = ['PUT'])
 @jwt_required()
 def update_recipe(id):
-    body = request.get_json()
+    img = request.files.get('img')
+    if img:
+        try:
+            img = upload(img)["url"] 
+        except Exception as error:
+            logger.error("Error uploading img to cloudinary")
+            logger.exception(error)
+            raise APIException(status_code=400, payload={
+                'error': {
+                    'message': 'Error uploading img to cloudinary',
+                }
+            })
+
+    body = request.form.to_dict()
+    body['id_user'] = get_jwt_identity()['id']
+    if img is not None:
+        body['photo'] = img
     recipe = controller.update_recipe(id, body)
 
     return jsonify(recipe.serialize())

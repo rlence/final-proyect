@@ -19,25 +19,22 @@ export const UpdateRecipes = () => {
   const history = useHistory();
   const [ingredientList, setIngredientList] = useState([]);
   const [selectedIngredientList, setSelectedIngredientList] = useState([]);
-
-  const [img, setImg] = useState(false);
-  const [fileUrl, setFileUrl] = useState();
-
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [tag, setTag] = useState("");
+  const [img, setImg] = useState(undefined);
+  const [fileUrl, setFileUrl] = useState("");
   const [recipe, setRecipe] = useState({});
-  const [tag, setTag] = useState();
   const { recipe_id } = useParams();
-
   const [errorMessage, setErrorMessage] = useState("");
-
   const [canRender, setCanRender] = useState(false);
   const [default_val, setDefaultVal] = useState([]);
 
   useEffect(() => {
-    console.log("hola");
     getTag(recipe_id)
       .then((response) => response.json())
       .then((data) => {
-        setTag(data);
+        setTag(data.tag);
       });
 
     getRecipe(recipe_id)
@@ -45,7 +42,6 @@ export const UpdateRecipes = () => {
       .then((data) => {
         setRecipe(data);
         setFileUrl(data.photo);
-        setImg(true);
         let def_val = data.ingredient_list.map((ele) => ({
           label: ele.name,
           value: ele.id,
@@ -88,7 +84,7 @@ export const UpdateRecipes = () => {
 
   const handleChangeTag = (event) => {
     setTag(event.target.value);
-    updateTag(recipe_id, tag)
+    updateTag(recipe_id, event.target.value)
       .then((resp) => resp.json())
       .then((data) => {
         if (data["msg"]) {
@@ -122,7 +118,19 @@ export const UpdateRecipes = () => {
 
     recipe.ingredient_list = ingredient_list;
 
-    updateRecipe(recipe_id, recipe)
+    let payload = {
+      title: recipe.title,
+      description: recipe.description,
+      tag: recipe.tag,
+      //private: recipe.isPrivate,
+      ingredient_list: recipe.ingredient_list,
+    };
+
+    if (img) {
+      payload.img = img;
+    }
+
+    updateRecipe(recipe_id, payload)
       .then((resp) => resp.json())
       .then((data) => {
         if (data["msg"]) {
@@ -165,7 +173,7 @@ export const UpdateRecipes = () => {
               className="form-select"
               aria-label="Default select example"
               onChange={handleChangeTag}
-              value={recipe.tag ? recipe.tag.toString() : "0"}
+              value={tag ? tag.toString() : "0"}
             >
               <option value="0">---</option>
               <option value="1">Comida</option>
@@ -182,7 +190,7 @@ export const UpdateRecipes = () => {
               className="file d-none"
               data-browse-on-zone-click="true"
             />
-            {img ? (
+            {fileUrl ? (
               <img
                 src={fileUrl}
                 className="upload-image__image"

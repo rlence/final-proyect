@@ -37,8 +37,7 @@ export const MyMenus = () => {
     autoMenu(currentDate.toISOString())
       .then((response) => response.json())
       .then((data) => {
-        debugger;
-        if (data.error.message == "insufficient recipes") {
+        if (data.error?.message == "insufficient recipes") {
           setWarningMessage("No tienes recetas suficientes para crear un menú");
         } else {
           setMenu(data);

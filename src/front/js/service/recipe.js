@@ -63,13 +63,20 @@ export const deleteRecipe = (id) => {
   });
 };
 
-export const updateRecipe = (id, recipe) => {
+export const updateRecipe = (id, payload) => {
+  const formData = new FormData();
+  if (payload["ingredient_list"]) {
+    payload.ingredient_list = JSON.stringify(payload.ingredient_list);
+  }
+
+  for (const key in payload) {
+    formData.append(key, payload[key]);
+  }
   return fetch(`${BaseUrl}/recipe/update/${id}`, {
     method: "PUT",
-    body: JSON.stringify(recipe),
+    body: formData,
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,      
     },
   });
 };
