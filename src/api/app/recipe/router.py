@@ -71,7 +71,7 @@ def get_recipe(id):
 # get for public recipes without token   
 @recipes.route('/get/public/<id>', methods = ['GET'])
 
-def get_recipe(id):
+def get_public_recipe(id):
            
     recipe = controller.get_recipe(id)
 
