@@ -1,6 +1,7 @@
 .navbar {
   width: 100%;
   background-color: white;
+  margin-top: 0%;
 }
 
 .container-logo {
@@ -18,29 +19,4 @@
   width: 20%;
   left: 2%;
   margin: auto;
-}
-
-.btn-register {
-  margin: 5;
-  background-color: #43aa72 !important;
-  border-color: white !important;
-  color: white !important;
-}
-
-.btn-login {
-  background-color: #43aa72 !important;
-  border-color: white !important;
-  color: white !important;
-}
-
-.btn-mis-recetas {
-  background-color: #43aa72 !important;
-  border-color: white !important;
-  color: white !important;
-}
-
-.btn-mis-menus {
-  background-color: #43aa72 !important;
-  border-color: white !important;
-  color: white !important;
 }

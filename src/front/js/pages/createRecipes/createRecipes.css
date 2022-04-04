@@ -1,0 +1,28 @@
+h3 {
+  margin-bottom: 10px;
+}
+
+.form-control {
+  margin-bottom: 15px;
+}
+
+.upload-image {
+  text-align: center;
+  background-color: #d2e7dfbd;
+  height: 200px;
+  width: 100%;
+  cursor: pointer;
+  background-image: url(https://res.cloudinary.com/dw4npwftd/image/upload/v1647259849/camera_ykmk0i.png);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: color-dodge;
+  border-radius: 15px;
+}
+
+.upload-image__image {
+  height: 200px;
+  width: 100%;
+  object-fit: contain;
+  cursor: pointer;
+}

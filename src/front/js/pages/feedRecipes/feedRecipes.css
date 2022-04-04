@@ -1,0 +1,19 @@
+.search{
+    
+    bottom: 0px;
+    right: 0px; 
+    padding: 20px; 
+  }
+
+
+.button{
+    color: #43aa72;
+}
+.cards{
+    justify-content: space-around;
+    gap:30px;
+}
+.recipe-pagination{
+    margin-top: 5%;
+    bottom: 2%;
+}

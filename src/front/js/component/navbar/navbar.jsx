@@ -1,16 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../../store/appContext";
 
 import "../navbar/navbar.css";
 
 export const Navbar = () => {
-  const [isLogged, setIsLogged] = useState(false);
+  const { store, actions } = useContext(Context);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      setIsLogged(true);
+      actions.changeLogged(true);
     }
-  });
+  }, []);
+
+  const logout = () => {
+    localStorage.clear();
+    actions.changeLogged(false);
+  };
 
   return (
     <nav className="navbar navbar-light">
@@ -24,27 +30,29 @@ export const Navbar = () => {
           </span>
         </Link>
       </div>
-      {!isLogged ? (
+      {!store.isLogged ? (
         <div className="container-buttons">
           <Link to="/register">
-            <button className="btn btn-outline-primary btn-register">
-              Registro
-            </button>
+            <button className="btn btn-primary">Registro</button>
           </Link>
           <Link to="/login">
-            <button className="btn btn-outline-primary btn-login">Login</button>
+            <button className="btn btn-primary">Login</button>
           </Link>
         </div>
       ) : (
         <div className="container-buttons menu">
-          <Link to="/mis-recetas">
-            <button className="btn btn-outline-primary btn-mis-recetas">
-              Mis recetas
-            </button>
+          <Link to="/recipes/">
+            <button className="btn btn-primary">Recetas</button>
           </Link>
-          <Link to="/mis-menus">
-            <button className="btn btn-outline-primary btn-mis-menus">
-              Mis menús
+          <Link to="/my-recipes">
+            <button className="btn btn-primary">Mis recetas</button>
+          </Link>
+          <Link to="/my-menus">
+            <button className="btn btn-primary">Mis menús</button>
+          </Link>
+          <Link to="/">
+            <button className="btn btn-primary" onClick={logout}>
+              Salir
             </button>
           </Link>
         </div>

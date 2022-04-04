@@ -1,24 +1,23 @@
 from api.models.db import db
 
-class Comment(db.Model):
+class MyRecipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    tag = db.Column(db.Integer)
     id_user= db.Column(db.Integer, db.ForeignKey('user.id'))
-
-    user = db.relationship('User', backref='user_comment')
+    user = db.relationship('User', backref='user_myrecipe')
     id_recipe= db.Column(db.Integer, db.ForeignKey('recipe.id'))
-    recipe = db.relationship('Recipe', backref='recipe_comment')
+    recipe = db.relationship('Recipe')
 
-  
-  
 
     def __repr__(self):
-        return '<Comment %r>' % self.id
+        return '<MyRecipe %r>' % self.id
 
     def serialize(self):
         return {
             "id": self.id,
-            "id_user": self.id_user,
-            "id_recipe": self.id_recipe,
+            "user": self.user.serialize(),
+            "recipe": self.recipe.serialize(),
+            "tag": self.tag 
             
             
         }

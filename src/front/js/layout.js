@@ -9,11 +9,16 @@ import injectContext from "./store/appContext";
 import { Landing } from "./pages/landing/landing.jsx";
 import { Login } from "./pages/login/login.jsx";
 import { Register } from "./pages/register/register.jsx";
-import { MisRecetas } from "./pages/misRecetas/misRecetas.jsx";
-import { MisMenus } from "./pages/misMenus/misMenus.jsx";
+import { MyRecipes } from "./pages/myRecipes/myRecipes.jsx";
+import { MyMenus } from "./pages/myMenus/myMenus.jsx";
+import { CreateRecipes } from "./pages/createRecipes/createRecipes.jsx";
+import { ViewRecipe } from "./pages/viewRecipe/viewRecipe.jsx";
+import { FeedRecipes } from "./pages/feedRecipes/feedRecipes.jsx";
+import { UpdateRecipes } from "./pages/updateRecipe/updateRecipe.jsx";
 
 import { Navbar } from "./component/navbar/navbar.jsx";
 import { Footer } from "./component/footer.jsx";
+
 
 //create your first component
 const Layout = () => {
@@ -36,17 +41,29 @@ const Layout = () => {
             <Route exact path="/register">
               <Register />
             </Route>
-            <Route exact path="/mis-recetas">
-              <MisRecetas />
+            <Route exact path="/my-recipes">
+              <MyRecipes />
             </Route>
-            <Route exact path="/mis-menus">
-              <MisMenus />
+            <Route exact path="/my-menus">
+              <MyMenus />
+            </Route>
+            <Route exact path="/recipes/create">
+              <CreateRecipes />
+            </Route>
+            <Route exact path="/recipes/:recipe_id">
+              <ViewRecipe />
+            </Route>
+            <Route exact path="/recipes/">
+              <FeedRecipes/>
+            </Route>
+            <Route exact path="/recipes/update/:recipe_id">
+              <UpdateRecipes/>
             </Route>
             <Route>
               <h1>Not found!</h1>
             </Route>
           </Switch>
-          <Footer />
+          {/* <Footer /> */}
         </ScrollToTop>
       </BrowserRouter>
     </div>

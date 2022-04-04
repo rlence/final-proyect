@@ -1,2 +1,5 @@
-export const BaseUrl =
-  "https://3001-lienzoenblanco-makemenue-99fgng5myml.ws-eu34xl.gitpod.io/api";
+const hostName = window.location.hostname;
+const backHostName = hostName.replace("3000", "3001");
+console.log(backHostName);
+
+export const BaseUrl = process.env.BACKEND_URL + "/api";
