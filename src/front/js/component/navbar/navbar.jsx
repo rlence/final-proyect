@@ -53,6 +53,9 @@ export const Navbar = () => {
           <Link to="/my-menus">
             <button className="btn btn-primary">Mis menús</button>
           </Link>
+          <Link to="/my-profile">
+            <button className="btn btn-primary">Mi perfil</button>
+          </Link>
           <Link to="/">
             <button className="btn btn-primary" onClick={logout}>
               Salir
