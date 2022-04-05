@@ -24,7 +24,7 @@ export const Landing = () => {
           </div>
           <div className="col-md-6 col-sm-12">
             <p className="text">
-              ¿Cuánto timepo inviertes elaborando los menús semanales? ¿Te
+              ¿Cuánto tiempo inviertes elaborando los menús semanales? ¿Te
               gustaría hacerlos con un click? Con Make Menu puedes hacerlo. Crea
               las recetas que más te gusten o añádelas de entre todas las
               recetas públicas. El menú se generará automáticamente de entre
