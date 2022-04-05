@@ -75,3 +75,47 @@ def login_user(body):
     except Exception as err:
         print('[ERROR LOGIN]: ', err)
         return None
+
+def update_user_profile(body):
+    try:
+        if not body:
+            return False
+        
+        user_info = {
+            "password": body.get('password'),
+            "email": body.get('email'),
+            "name": body.get('name'),
+            "last_name": body.get('lastName'),
+        }
+        print(user_info)
+        
+        hash_pass = encryp_pass(user_info['password'])
+        user_info['password'] = hash_pass
+
+            # user = User(**user_info)
+            # db.session.add(new_user)
+            # db.session.commit()
+
+        num_rows_updated = User.query.filter_by(User.email==user_info.email).update(user_info)
+        db.session.commit()
+        return  User.query.get(user_id)
+        
+    except IntegrityError as err:
+        logger.exception('[ERROR REGISTER USER]: USER DUPLICATED ')
+        raise APIException(status_code=401, payload={
+            'error': {
+                'message': 'Email no valido',
+            }
+        })
+    except Exception as err:
+        db.session.rollback()
+        logger.exception('[ERROR REGISTER USER]: Unexepcted')
+        return None
+
+      
+        
+
+    
+
+
+
