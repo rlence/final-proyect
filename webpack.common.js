@@ -3,6 +3,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 
+
 module.exports = {
   entry: ["./src/front/js/index.js"],
   output: {
@@ -46,7 +47,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      favicon: make_menu.ico,
+      favicon:"/workspace/make-menu-easy-planner/img/make_menu.ico",
 
       template: "template.html",
     }),
