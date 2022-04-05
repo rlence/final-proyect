@@ -1,7 +1,6 @@
 body {
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
-  
+  font-family: "Montserrat", sans-serif;
 }
 
 .hero {
@@ -20,10 +19,11 @@ body {
 
   /* Background styles */
   /* background-image: url(./../../../img/food-table.jpg); Por que no funciona??? */
- 
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://res.cloudinary.com/dw4npwftd/image/upload/v1645726410/ella-olsson-4dQiaWKiL-Y-unsplash_hftrb9.jpg");
+
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("https://res.cloudinary.com/dw4npwftd/image/upload/v1645726410/ella-olsson-4dQiaWKiL-Y-unsplash_hftrb9.jpg");
   background-size: cover;
-  background-position:center right;
+  background-position: center right;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
@@ -57,19 +57,27 @@ body {
   border: 3px solid white; /* CHANGE THIS LINE */
   border-radius: 20px;
 }
-p{
-  margin:30px;
+
+.medium-img {
+  width: 100%;
 }
 
-.medium-img{
-  width: 70%;
- 
+.first-row {
+  margin-bottom: 3%;
 }
 
-.col-6{
-  text-align: center;
-  
+.text {
+  text-align: left;
+  margin-top: 10%;
+  font-size: 18px;
+  margin: 30px;
+}
+
+.info {
+  margin-top: 3%;
+}
+
+.btn-landing {
+  display: flex;
   justify-content: center;
-  align-items: center;
 }
-

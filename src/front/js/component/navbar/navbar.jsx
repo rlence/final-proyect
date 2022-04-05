@@ -32,6 +32,9 @@ export const Navbar = () => {
       </div>
       {!store.isLogged ? (
         <div className="container-buttons">
+          <Link to="/recipes/">
+            <button className="btn btn-primary">Recetas</button>
+          </Link>
           <Link to="/register">
             <button className="btn btn-primary">Registro</button>
           </Link>
