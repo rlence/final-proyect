@@ -1,4 +1,3 @@
-import { useHistory } from "react-router-dom";
 import { BaseUrl } from "./base.js";
 
 export const loginUser = (email, password) => {
@@ -27,3 +26,22 @@ export const registerService = (userInfo) => {
   );
 };
 
+export const getUser = () => {
+  return fetch(BaseUrl + "/user/", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
+export const updateUser = (userInfo) => {
+  return fetch(
+    BaseUrl + "/user/update",
+    {
+      method: "POST",
+      body: JSON.stringify(userInfo),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+};
