@@ -96,9 +96,9 @@ def update_user_profile(body):
             # db.session.add(new_user)
             # db.session.commit()
 
-        num_rows_updated = User.query.filter_by(User.email==user_info.email).update(user_info)
+        num_rows_updated = User.query.filter_by(email=user_info["email"]).update(user_info)
         db.session.commit()
-        return  User.query.get(user_id)
+        return  User.query.filter_by(email=user_info["email"]).first().serialize()
         
     except IntegrityError as err:
         logger.exception('[ERROR REGISTER USER]: USER DUPLICATED ')
