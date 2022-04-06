@@ -6,6 +6,7 @@ import Card from "../../component/Card/card.jsx";
 import Spinner from "../../component/Spinner/spinner.jsx";
 
 import "../feedRecipes/feedRecipes.css";
+import SuccessMessage from "../../component/SuccessMessage/SuccessMessage.jsx";
 
 export const FeedRecipes = () => {
   const { store, actions } = useContext(Context);
@@ -70,21 +71,7 @@ export const FeedRecipes = () => {
 
   return (
     <div className="container">
-      {store.successMessage && (
-        <div
-          className="alert alert-success alert-dismissible fade show"
-          role="alert"
-        >
-          {store.successMessage}
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="Close"
-            onClick={() => actions.cleanSuccessMessage()}
-          ></button>
-        </div>
-      )}
+     
 
       <div className="search row justify-content-md-center">
         <form className="col-md-auto" onChange={handleChange}>
