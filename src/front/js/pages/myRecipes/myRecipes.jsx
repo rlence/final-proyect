@@ -6,6 +6,7 @@ import Card from "../../component/Card/card.jsx";
 import Spinner from "../../component/Spinner/spinner.jsx";
 
 import "../myRecipes/myRecipes.css";
+import SuccessMessage from "../../component/SuccessMessage/SuccessMessage.jsx";
 
 export const MyRecipes = () => {
   const { store, actions } = useContext(Context);
@@ -51,22 +52,7 @@ export const MyRecipes = () => {
 
   return (
     <div className="container">
-      {store.successMessage && (
-        <div
-          className="alert alert-success alert-dismissible fade show"
-          role="alert"
-        >
-          {store.successMessage}
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="Close"
-            onClick={() => actions.cleanSuccessMessage()}
-          ></button>
-        </div>
-      )}
-
+     
       <section className="up">
         <Link to="/recipes/create">
           <button className="btn btn-primary">Crear receta</button>

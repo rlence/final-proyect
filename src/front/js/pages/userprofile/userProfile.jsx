@@ -54,8 +54,7 @@ export const UserProfile = () => {
   }
 
   return (
-    <div className="container-fluid profile">
-      <SuccessMessage/>
+    <div className="container-fluid profile">      
       <div className="">
         <h1 className="my-profile-title">Mis datos</h1>
         <div>

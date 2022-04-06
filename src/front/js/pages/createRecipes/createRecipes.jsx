@@ -5,6 +5,7 @@ import Select from "react-select";
 
 import { createRecipe } from "../../service/recipe";
 import { listIngredient } from "../../service/ingredient";
+import SuccessMessage from "../../component/SuccessMessage/SuccessMessage.jsx";
 
 import "../createRecipes/createRecipes.css";
 
@@ -116,6 +117,7 @@ export const CreateRecipes = () => {
 
   return (
     <div className="container">
+   
       {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
       <h3>Crear nueva receta</h3>
       <div className="row">
